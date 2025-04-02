@@ -484,11 +484,110 @@ footer p:hover {
     }
 }
 
-/* Animación de latido para el título */
+/* Animación de crecimiento para los tulipanes */
+@keyframes tulipGrow {
+    0% { transform: scale(0.8) translateY(10px); }
+    100% { transform: scale(1) translateY(0); }
+}
+
+/* Aplicamos la animación a los tulipanes */
+.tulip {
+    animation: tulipGrow 1.5s ease-out forwards;
+}
+
+/* Mejoramos el efecto hover de los tulipanes */
+.tulip:hover {
+    transform: translateY(-15px) rotate(8deg);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Añadimos un efecto de brillo a los momentos */
+.moment {
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+}
+
+.moment:hover {
+    background-color: #f5e6f8;
+    transform: translateY(-12px);
+    box-shadow: 0 12px 25px rgba(142, 68, 173, 0.25);
+}
+
+/* Mejoramos la animación de latido para el título */
 @keyframes heartbeat {
     0% { transform: scale(1); }
-    25% { transform: scale(1.1); }
-    50% { transform: scale(1); }
-    75% { transform: scale(1.1); }
+    15% { transform: scale(1.12); }
+    30% { transform: scale(1.05); }
+    45% { transform: scale(1.08); }
+    60% { transform: scale(1); }
     100% { transform: scale(1); }
+}
+
+.title:hover {
+    animation: heartbeat 1.5s ease-in-out;
+    transform: scale(1);
+}
+
+/* Añadimos un efecto de transición suave para todos los elementos interactivos */
+a, button, .signature, .poem-content p {
+    transition: all 0.3s ease;
+}
+
+/* Mejoramos el aspecto visual del pie de página */
+footer {
+    background-color: rgba(248, 241, 255, 0.5);
+    border-radius: 10px;
+    margin-top: 60px;
+    padding: 25px 0;
+}
+
+/* Añadimos un efecto de desplazamiento suave para toda la página */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Efecto hover para el texto del pie de página */
+footer p:hover {
+    color: var(--color-primary);
+}
+
+/* Tulipán decorativo en el pie de página */
+.tulip-footer {
+    width: 40px;
+    height: 60px;
+    margin: 20px auto;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto hover para el tulipán del pie de página */
+.tulip-footer:hover {
+    transform: translateY(-5px) rotate(5deg);
+}
+
+/* Tallo del tulipán del pie de página */
+.tulip-footer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 40px;
+    background-color: var(--color-accent);
+    border-radius: 2px;
+}
+
+/* Flor del tulipán del pie de página */
+.tulip-footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 40px;
+    background-color: var(--color-primary);
+    border-radius: 50% 50% 0 0;
+    box-shadow: -10px 0 0 var(--color-primary), 10px 0 0 var(--color-primary);
+    transition: transform 0.3s ease;
 }

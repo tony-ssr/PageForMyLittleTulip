@@ -9,14 +9,36 @@
 
 /* Variables CSS para facilitar la personalización y mantener consistencia */
 :root {
+    /* Modo claro (predeterminado) */
     --color-primary: #e75480;      /* Color principal (rosa tulipán) */
     --color-secondary: #8e44ad;    /* Color secundario (púrpura) */
     --color-accent: #4CAF50;       /* Color acento (verde tallo) */
     --color-background: #fff9f9;   /* Color de fondo suave */
     --color-text: #333;            /* Color de texto principal */
+    --color-card-bg: #f8f1ff;      /* Color de fondo para tarjetas */
+    --color-section-bg: rgba(255, 255, 255, 0.8); /* Color de fondo para secciones */
+    --color-footer-bg: rgba(248, 241, 255, 0.5);  /* Color de fondo para pie de página */
+    --color-moment-hover: #f5e6f8; /* Color hover para momentos */
+    --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+    --shadow-hover: 0 12px 25px rgba(142, 68, 173, 0.25); /* Sombra para hover */
+    --tulip-bg-opacity: 0.15;      /* Opacidad para los tulipanes de fondo */
     --font-decorative: 'Dancing Script', cursive;  /* Fuente decorativa */
     --font-main: 'Montserrat', sans-serif;         /* Fuente principal */
-    --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+}
+
+/* Variables para modo oscuro */
+[data-theme="dark"] {
+    --color-primary: #ff7ba9;      /* Color principal más brillante para modo oscuro */
+    --color-secondary: #b76fd3;    /* Color secundario más brillante */
+    --color-accent: #6bdb6e;       /* Color acento más brillante */
+    --color-background: #1a1a1a;   /* Color de fondo oscuro */
+    --color-text: #f0f0f0;         /* Color de texto claro */
+    --color-card-bg: #2d2d2d;      /* Color de fondo para tarjetas */
+    --color-section-bg: rgba(45, 45, 45, 0.9); /* Color de fondo para secciones */
+    --color-footer-bg: rgba(40, 40, 40, 0.7);  /* Color de fondo para pie de página */
+    --color-moment-hover: #3d3d3d; /* Color hover para momentos */
+    --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.3);  /* Sombra suave más oscura */
+    --shadow-hover: 0 12px 25px rgba(183, 111, 211, 0.3); /* Sombra para hover */
 }
 
 /* Reset básico para eliminar márgenes y rellenos predeterminados */
@@ -32,6 +54,8 @@ body {
     background-color: var(--color-background);
     color: var(--color-text);
     line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
 }
 
 /* Contenedor principal que centra el contenido y establece el ancho máximo */
@@ -39,6 +63,118 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    position: relative;
+    z-index: 1; /* Asegura que el contenido esté por encima del fondo animado */
+}
+
+/* ====== FONDO DE TULIPANES ANIMADOS ====== */
+/* Capa de fondo con tulipanes animados */
+.tulip-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Permite interactuar con elementos debajo */
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Tulipanes individuales en el fondo */
+.bg-tulip {
+    position: absolute;
+    opacity: var(--tulip-bg-opacity);
+    transform-origin: center bottom;
+    will-change: transform; /* Optimiza las animaciones */
+}
+
+/* Variantes de tulipanes para el fondo */
+.bg-tulip-1 {
+    width: 60px;
+    height: 90px;
+    animation: floatAnimation 15s infinite ease-in-out, rotateAnimation 20s infinite linear;
+}
+
+.bg-tulip-2 {
+    width: 80px;
+    height: 120px;
+    animation: floatAnimation 18s infinite ease-in-out reverse, rotateAnimation 25s infinite linear reverse;
+}
+
+.bg-tulip-3 {
+    width: 40px;
+    height: 60px;
+    animation: floatAnimation 12s infinite ease-in-out, rotateAnimation 15s infinite linear;
+}
+
+/* Estructura base del tulipán de fondo */
+.bg-tulip::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 60%;
+    background-color: var(--color-accent);
+    border-radius: 3px;
+    opacity: 0.8;
+}
+
+.bg-tulip::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 50%;
+    border-radius: 50% 50% 0 0;
+    opacity: 0.9;
+}
+
+/* Variantes de color para los tulipanes de fondo */
+.bg-tulip-pink::after {
+    background-color: var(--color-primary);
+    box-shadow: -15px 0 0 var(--color-primary), 15px 0 0 var(--color-primary);
+}
+
+.bg-tulip-purple::after {
+    background-color: var(--color-secondary);
+    box-shadow: -15px 0 0 var(--color-secondary), 15px 0 0 var(--color-secondary);
+}
+
+.bg-tulip-orange::after {
+    background-color: #FF9800;
+    box-shadow: -15px 0 0 #FF9800, 15px 0 0 #FF9800;
+}
+
+/* Animaciones para los tulipanes de fondo */
+@keyframes floatAnimation {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes rotateAnimation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes parallaxScroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
 }
 
 /* ====== ENCABEZADO ====== */
@@ -47,6 +183,175 @@ header {
     text-align: center;
     padding: 40px 0;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilos para el toggle switch de tema - Versión mejorada */
+.theme-toggle-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.theme-toggle-container:hover {
+    transform: scale(1.08) rotate(5deg);
+}
+
+.theme-toggle {
+    position: relative;
+    display: inline-block;
+    width: 75px;
+    height: 36px;
+    cursor: pointer;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.1));
+}
+
+.theme-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-card-bg);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 2px solid var(--color-primary);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15), 0 0 15px rgba(231, 84, 128, 0.2);
+    overflow: hidden;
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 28px;
+    width: 28px;
+    left: 4px;
+    bottom: 2px;
+    background-color: var(--color-primary);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+/* Efecto de tulipán mejorado para el botón */
+.slider:after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 16px;
+    height: 20px;
+    background-color: var(--color-accent);
+    border-radius: 50% 50% 0 0;
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+    box-shadow: -5px 0 0 var(--color-accent), 5px 0 0 var(--color-accent);
+}
+
+.theme-toggle:hover .slider:before {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.theme-toggle:hover .slider:after {
+    opacity: 0.3;
+    transform: translateX(-50%) scale(0.8);
+}
+
+input:checked + .slider {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.2), 0 0 20px rgba(142, 68, 173, 0.3);
+}
+
+input:checked + .slider:before {
+    transform: translateX(39px) rotate(360deg);
+    background-color: var(--color-background);
+}
+
+input:checked + .slider:after {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1);
+    background-color: var(--color-secondary);
+    box-shadow: -5px 0 0 var(--color-secondary), 5px 0 0 var(--color-secondary);
+}
+
+.theme-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 3;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.theme-icon.light {
+    left: 10px;
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.5));
+}
+
+.theme-icon.dark {
+    right: 10px;
+    opacity: 0.5;
+    transform: translateY(-50%) scale(0.8) rotate(-45deg);
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+}
+
+input:checked ~ .theme-icon.light {
+    opacity: 0.5;
+    transform: translateY(-50%) scale(0.8) rotate(45deg);
+    filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.3));
+}
+
+input:checked ~ .theme-icon.dark {
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 8px rgba(142, 68, 173, 0.6));
+}
+
+/* Efectos mejorados para los iconos */
+.theme-toggle:hover .theme-icon.light {
+    animation: sunPulse 1.5s infinite alternate;
+}
+
+.theme-toggle:hover .theme-icon.dark {
+    animation: moonGlow 1.5s infinite alternate;
+}
+
+@keyframes sunPulse {
+    0% { transform: translateY(-50%) scale(1) rotate(0deg); filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.5)); }
+    50% { filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8)); }
+    100% { transform: translateY(-50%) scale(1.2) rotate(15deg); filter: drop-shadow(0 0 20px rgba(255, 204, 0, 0.7)); }
+}
+
+@keyframes moonGlow {
+    0% { transform: translateY(-50%) scale(1) rotate(0deg); filter: drop-shadow(0 0 5px rgba(142, 68, 173, 0.5)); }
+    50% { filter: drop-shadow(0 0 12px rgba(142, 68, 173, 0.8)); }
+    100% { transform: translateY(-50%) scale(1.2) rotate(-15deg); filter: drop-shadow(0 0 20px rgba(142, 68, 173, 0.7)); }
 }
 
 /* Título principal con fuente decorativa */
@@ -79,7 +384,7 @@ header {
     align-items: center;
     margin: 50px 0;
     padding: 30px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--color-section-bg);
     border-radius: 15px;
     box-shadow: var(--shadow-soft);
     position: relative;
@@ -231,7 +536,7 @@ header {
     flex: 1;
     min-width: 300px;
     height: 200px;
-    background-color: #f8f1ff;
+    background-color: var(--color-card-bg);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
@@ -241,7 +546,7 @@ header {
 
 .moment:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(142, 68, 173, 0.2);
+    box-shadow: var(--shadow-hover);
 }
 
 /* Estado activo para momentos seleccionados */
@@ -276,7 +581,7 @@ header {
     margin: 60px 0;
     text-align: center;
     padding: 40px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--color-section-bg);
     border-radius: 15px;
     box-shadow: var(--shadow-soft);
     position: relative;
@@ -414,6 +719,11 @@ footer p:hover {
     .message p {
         font-size: 1rem;
     }
+    
+    .theme-toggle-container {
+        top: 15px;
+        right: 15px;
+    }
 }
 
 /* Ajustes para dispositivos móviles */
@@ -482,6 +792,29 @@ footer p:hover {
     .poem-content p {
         font-size: 1rem;
     }
+    
+    .theme-toggle-container {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .theme-toggle {
+        width: 50px;
+        height: 26px;
+    }
+    
+    .slider:before {
+        height: 18px;
+        width: 18px;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(24px);
+    }
+    
+    .theme-icon {
+        font-size: 12px;
+    }
 }
 
 /* Animación de crecimiento para los tulipanes */
@@ -507,9 +840,9 @@ footer p:hover {
 }
 
 .moment:hover {
-    background-color: #f5e6f8;
+    background-color: var(--color-moment-hover);
     transform: translateY(-12px);
-    box-shadow: 0 12px 25px rgba(142, 68, 173, 0.25);
+    box-shadow: var(--shadow-hover);
 }
 
 /* Mejoramos la animación de latido para el título */
@@ -534,7 +867,7 @@ a, button, .signature, .poem-content p {
 
 /* Mejoramos el aspecto visual del pie de página */
 footer {
-    background-color: rgba(248, 241, 255, 0.5);
+    background-color: var(--color-footer-bg);
     border-radius: 10px;
     margin-top: 60px;
     padding: 25px 0;

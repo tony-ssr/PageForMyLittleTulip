@@ -10,6 +10,9 @@
  * Esto asegura que todos los elementos HTML estén disponibles antes de manipularlos
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // Crea los tulipanes animados en el fondo
+    createBackgroundTulips();
+    
     // Inicializa la animación de entrada para los elementos principales
     animateElements();
     
@@ -21,6 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Registra eventos para interactividad adicional
     setupInteractivity();
+    
+    // Inicializa el efecto parallax para los tulipanes de fondo durante el scroll
+    initBackgroundParallax();
+    
+    // Inicializa el sistema de temas (claro/oscuro)
+    initThemeSystem();
 });
 
 /**
@@ -245,4 +254,227 @@ function setupInteractivity() {
     }
     
     console.log('Interactividad adicional configurada');
+}
+
+/**
+ * Crea los tulipanes animados en el fondo de la página
+ * Genera elementos de tulipán con diferentes tamaños, colores y posiciones
+ * para crear un efecto visual atractivo pero no distrayente
+ */
+function createBackgroundTulips() {
+    // Obtiene el contenedor para los tulipanes de fondo
+    const tulipBackground = document.getElementById('tulip-background');
+    
+    // Número de tulipanes a crear
+    const tulipCount = 15;
+    
+    // Tipos de tulipanes disponibles
+    const tulipTypes = [
+        { size: 'bg-tulip-1', color: 'bg-tulip-pink' },
+        { size: 'bg-tulip-2', color: 'bg-tulip-purple' },
+        { size: 'bg-tulip-3', color: 'bg-tulip-orange' }
+    ];
+    
+    // Crea los tulipanes y los añade al contenedor
+    for (let i = 0; i < tulipCount; i++) {
+        // Selecciona un tipo de tulipán aleatorio
+        const typeIndex = Math.floor(Math.random() * tulipTypes.length);
+        const type = tulipTypes[typeIndex];
+        
+        // Crea el elemento del tulipán
+        const tulip = document.createElement('div');
+        tulip.className = `bg-tulip ${type.size} ${type.color}`;
+        
+        // Posiciona el tulipán aleatoriamente en la pantalla
+        const posX = Math.random() * 100; // Posición horizontal (0-100%)
+        const posY = Math.random() * 100; // Posición vertical (0-100%)
+        tulip.style.left = `${posX}%`;
+        tulip.style.top = `${posY}%`;
+        
+        // Añade un retraso aleatorio a la animación para que no todos se muevan al mismo tiempo
+        const delay = Math.random() * 5; // Retraso entre 0 y 5 segundos
+        tulip.style.animationDelay = `${delay}s`;
+        
+        // Añade el tulipán al contenedor
+        tulipBackground.appendChild(tulip);
+    }
+    
+    console.log('Tulipanes de fondo creados:', tulipCount);
+}
+
+/**
+ * Inicializa el efecto parallax para los tulipanes de fondo durante el scroll
+ * Los tulipanes se mueven a diferentes velocidades creando una sensación de profundidad
+ */
+function initBackgroundParallax() {
+    // Selecciona todos los tulipanes de fondo
+    const bgTulips = document.querySelectorAll('.bg-tulip');
+    
+    // Si no hay tulipanes, salimos de la función
+    if (bgTulips.length === 0) {
+        console.warn('No se encontraron tulipanes de fondo para el efecto parallax');
+        return;
+    }
+    
+    // Posición inicial del scroll
+    let lastScrollY = window.scrollY;
+    
+    // Configura el evento de scroll
+    window.addEventListener('scroll', () => {
+        // Calcula la dirección y distancia del scroll
+        const scrollY = window.scrollY;
+        const scrollDelta = scrollY - lastScrollY;
+        lastScrollY = scrollY;
+        
+        // Aplica el efecto parallax a cada tulipán
+        bgTulips.forEach((tulip, index) => {
+            // Calcula un factor de velocidad único para cada tulipán
+            // basado en su índice para crear diferentes capas de profundidad
+            const speedFactor = 0.05 + (index % 3) * 0.02;
+            
+            // Obtiene la posición actual
+            const currentY = parseFloat(tulip.style.transform.replace('translateY(', '').replace('px)', '') || 0);
+            
+            // Calcula la nueva posición con el efecto parallax
+            const newY = currentY - (scrollDelta * speedFactor);
+            
+            // Aplica la transformación
+            tulip.style.transform = `translateY(${newY}px)`;
+        });
+    }, { passive: true }); // Optimización de rendimiento
+    
+    console.log('Efecto parallax para tulipanes de fondo inicializado');
+}
+
+/**
+ * Inicializa el sistema de temas (claro/oscuro) con animaciones mejoradas
+ * Verifica la preferencia guardada del usuario, aplica el tema correspondiente
+ * y configura el evento para cambiar entre temas con transiciones visuales
+ */
+function initThemeSystem() {
+    // Selecciona el toggle switch y su contenedor
+    const themeSwitch = document.getElementById('theme-switch');
+    const themeContainer = document.querySelector('.theme-toggle-container');
+    
+    // Si no existe el switch, salimos de la función
+    if (!themeSwitch) {
+        console.warn('No se encontró el switch de tema');
+        return;
+    }
+    
+    // Verifica si hay una preferencia guardada en localStorage
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Aplica el tema guardado o usa la preferencia del sistema
+    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+        applyTheme('dark');
+        themeSwitch.checked = true;
+    } else {
+        applyTheme('light');
+        themeSwitch.checked = false;
+    }
+    
+    // Función para aplicar el tema con animación
+    function applyTheme(theme, animate = false) {
+        // Aplica el atributo de tema al documento
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Si se solicita animación, añade efectos visuales
+        if (animate) {
+            // Añade clase para la animación de transición
+            document.body.classList.add('theme-transition');
+            
+            // Efecto de florecimiento para el botón
+            const slider = document.querySelector('.slider');
+            slider.classList.add('theme-changing');
+            
+            // Efecto de rotación para el contenedor
+            themeContainer.style.transform = theme === 'dark' ? 
+                'scale(1.2) rotate(10deg)' : 'scale(1.2) rotate(-10deg)';
+            
+            // Elimina las clases de animación después de completarse
+            setTimeout(() => {
+                document.body.classList.remove('theme-transition');
+                slider.classList.remove('theme-changing');
+                themeContainer.style.transform = '';
+            }, 800);
+            
+            // Añade un efecto de brillo temporal al fondo
+            const tulipBackground = document.getElementById('tulip-background');
+            if (tulipBackground) {
+                const glowEffect = document.createElement('div');
+                glowEffect.className = 'theme-change-glow';
+                glowEffect.style.backgroundColor = theme === 'dark' ? 
+                    'rgba(142, 68, 173, 0.2)' : 'rgba(231, 84, 128, 0.2)';
+                tulipBackground.appendChild(glowEffect);
+                
+                // Elimina el efecto después de la animación
+                setTimeout(() => {
+                    tulipBackground.removeChild(glowEffect);
+                }, 1000);
+            }
+        }
+    }
+    
+    // Añade estilos CSS para las animaciones de cambio de tema
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+        .theme-transition * {
+            transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease !important;
+        }
+        
+        .slider.theme-changing:after {
+            opacity: 0.8 !important;
+            transform: translateX(-50%) scale(1.5) !important;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+        
+        .theme-change-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            animation: themeGlow 1s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes themeGlow {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    `;
+    document.head.appendChild(styleElement);
+    
+    // Configura el evento para cambiar el tema con animaciones
+    themeSwitch.addEventListener('change', function() {
+        if (this.checked) {
+            // Cambia a tema oscuro con animación
+            applyTheme('dark', true);
+            localStorage.setItem('theme', 'dark');
+        } else {
+            // Cambia a tema claro con animación
+            applyTheme('light', true);
+            localStorage.setItem('theme', 'light');
+        }
+    });
+    
+    // También escucha cambios en la preferencia del sistema
+    prefersDarkScheme.addEventListener('change', (e) => {
+        // Solo cambia automáticamente si el usuario no ha establecido una preferencia
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                applyTheme('dark', true);
+                themeSwitch.checked = true;
+            } else {
+                applyTheme('light', true);
+                themeSwitch.checked = false;
+            }
+        }
+    });
+    
+    console.log('Sistema de temas inicializado con animaciones mejoradas');
 }

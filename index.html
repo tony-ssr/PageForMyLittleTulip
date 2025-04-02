@@ -20,10 +20,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Contenedor para los tulipanes animados de fondo (se llenará con JavaScript) -->
+    <div class="tulip-background" id="tulip-background"></div>
+    
     <!-- Contenedor principal que mantiene el contenido centrado -->
     <div class="container">
         <!-- Encabezado de la página con título principal -->
         <header>
+            <div class="theme-toggle-container">
+                <label class="theme-toggle" for="theme-switch">
+                    <input type="checkbox" id="theme-switch">
+                    <span class="slider round"></span>
+                    <span class="theme-icon light">☀️</span>
+                    <span class="theme-icon dark">🌙</span>
+                </label>
+            </div>
             <h1 class="title">Para mi tulipán</h1>
             <div class="subtitle">Ana Rosero</div>
         </header>

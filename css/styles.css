@@ -1,0 +1,494 @@
+/**
+ * Estilos para la página dedicatoria "Para mi tulipán"
+ * Autor original: Diego Yaqueno
+ * Desarrollador: Antony Salcedo
+ * Versión: 1.0.0
+ * Descripción: Hoja de estilos para la página dedicatoria con temática de tulipanes
+ * Repositorio: https://github.com/tony-ssr/PageForMyLittleTulip.git
+ */
+
+/* Variables CSS para facilitar la personalización y mantener consistencia */
+:root {
+    --color-primary: #e75480;      /* Color principal (rosa tulipán) */
+    --color-secondary: #8e44ad;    /* Color secundario (púrpura) */
+    --color-accent: #4CAF50;       /* Color acento (verde tallo) */
+    --color-background: #fff9f9;   /* Color de fondo suave */
+    --color-text: #333;            /* Color de texto principal */
+    --font-decorative: 'Dancing Script', cursive;  /* Fuente decorativa */
+    --font-main: 'Montserrat', sans-serif;         /* Fuente principal */
+    --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+}
+
+/* Reset básico para eliminar márgenes y rellenos predeterminados */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos base del documento */
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+/* Contenedor principal que centra el contenido y establece el ancho máximo */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ====== ENCABEZADO ====== */
+/* Estilos para la sección de encabezado con el título principal */
+header {
+    text-align: center;
+    padding: 40px 0;
+    position: relative;
+}
+
+/* Título principal con fuente decorativa */
+.title {
+    font-family: var(--font-decorative);
+    font-size: 4rem;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Efecto hover para el título */
+.title:hover {
+    transform: scale(1.02);
+}
+
+/* Subtítulo con el nombre de la persona */
+.subtitle {
+    font-size: 1.8rem;
+    color: var(--color-secondary);
+    font-weight: 300;
+}
+
+/* ====== SECCIÓN DE DEDICATORIA ====== */
+/* Contenedor principal de la sección de dedicatoria con diseño flexible */
+.dedication {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px 0;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover para la sección de dedicatoria */
+.dedication:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenedor del mensaje central */
+.message {
+    flex: 2;
+    padding: 0 30px;
+    text-align: center;
+}
+
+/* Párrafos dentro del mensaje */
+.message p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    transition: transform 0.2s ease;
+}
+
+/* Efecto hover para los párrafos */
+.message p:hover {
+    transform: translateY(-2px);
+}
+
+/* Estilo especial para el primer párrafo (saludo) */
+.message p:first-child {
+    font-size: 1.3rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Firma al final del mensaje */
+.signature {
+    font-family: var(--font-decorative);
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    margin-top: 30px;
+}
+
+/* ====== TULIPANES DECORATIVOS ====== */
+/* Contenedor para los tulipanes a los lados del mensaje */
+.tulip-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+/* Estructura base del tulipán */
+.tulip {
+    width: 100px;
+    height: 150px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto hover para los tulipanes */
+.tulip:hover {
+    transform: translateY(-10px) rotate(5deg);
+}
+
+/* Tallo del tulipán (pseudo-elemento) */
+.tulip::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 100px;
+    background-color: var(--color-accent);
+    border-radius: 4px;
+    transition: height 0.3s ease;
+}
+
+/* Flor del tulipán (pseudo-elemento) */
+.tulip::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 80px;
+    background-color: var(--color-primary);
+    border-radius: 50% 50% 0 0;
+    box-shadow: -20px 0 0 var(--color-primary), 20px 0 0 var(--color-primary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Variante de color para el tulipán izquierdo */
+.left .tulip::after {
+    background-color: #FF9800; /* Naranja */
+    box-shadow: -20px 0 0 #FF9800, 20px 0 0 #FF9800;
+}
+
+/* Variante de color para el tulipán derecho */
+.right .tulip::after {
+    background-color: #9C27B0; /* Púrpura */
+    box-shadow: -20px 0 0 #9C27B0, 20px 0 0 #9C27B0;
+}
+
+/* ====== SECCIÓN DE GALERÍA ====== */
+/* Contenedor principal de la galería de momentos */
+.gallery {
+    margin: 60px 0;
+    text-align: center;
+    transition: opacity 0.5s ease;
+}
+
+/* Título de la sección de galería */
+.gallery h2 {
+    font-family: var(--font-decorative);
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+/* Línea decorativa debajo del título */
+.gallery h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-primary);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Contenedor flexible para los momentos */
+.moments {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Tarjeta individual de momento */
+.moment {
+    flex: 1;
+    min-width: 300px;
+    height: 200px;
+    background-color: #f8f1ff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.moment:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(142, 68, 173, 0.2);
+}
+
+/* Estado activo para momentos seleccionados */
+.moment.active {
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 15px rgba(231, 84, 128, 0.3);
+}
+
+/* Contenido interno de cada tarjeta de momento */
+.moment-content {
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+/* Título de cada momento */
+.moment h3 {
+    color: var(--color-secondary);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    position: relative;
+    display: inline-block;
+}
+
+/* ====== SECCIÓN DE POEMA ====== */
+/* Contenedor principal de la sección del poema */
+.poem {
+    margin: 60px 0;
+    text-align: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover para la sección del poema */
+.poem:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Título de la sección del poema */
+.poem h2 {
+    font-family: var(--font-decorative);
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+/* Línea decorativa debajo del título */
+.poem h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background-color: var(--color-primary);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Contenedor del contenido del poema */
+.poem-content {
+    font-family: var(--font-main);
+    font-weight: 300;
+    line-height: 2;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Párrafos del poema */
+.poem-content p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Efecto hover para los versos del poema */
+.poem-content p:hover {
+    color: var(--color-primary);
+    transform: scale(1.02);
+}
+
+/* ====== PIE DE PÁGINA ====== */
+/* Contenedor principal del pie de página */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 50px;
+    position: relative;
+    border-top: 1px solid rgba(142, 68, 173, 0.1);
+}
+
+/* Texto del pie de página */
+footer p {
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+/* Efecto hover para el texto del pie de página */
+footer p:hover {
+    color: var(--color-primary);
+}
+
+/* Tulipán decorativo en el pie de página */
+.tulip-footer {
+    width: 40px;
+    height: 60px;
+    margin: 20px auto;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto hover para el tulipán del pie de página */
+.tulip-footer:hover {
+    transform: translateY(-5px) rotate(5deg);
+}
+
+/* Tallo del tulipán del pie de página */
+.tulip-footer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 40px;
+    background-color: var(--color-accent);
+    border-radius: 2px;
+}
+
+/* Flor del tulipán del pie de página */
+.tulip-footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 40px;
+    background-color: var(--color-primary);
+    border-radius: 50% 50% 0 0;
+    box-shadow: -10px 0 0 var(--color-primary), 10px 0 0 var(--color-primary);
+    transition: transform 0.3s ease;
+}
+
+/* ====== ESTILOS RESPONSIVE ====== */
+/* Ajustes para tablets */
+@media (max-width: 992px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .title {
+        font-size: 3.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1.6rem;
+    }
+    
+    .message p {
+        font-size: 1rem;
+    }
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    /* Ajuste de la dedicatoria para móviles */
+    .dedication {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    /* Ajuste de los contenedores de tulipanes */
+    .tulip-container {
+        height: 150px;
+        margin: 10px 0;
+    }
+    
+    /* Ajuste de la galería para móviles */
+    .moments {
+        flex-direction: column;
+    }
+    
+    /* Ajuste de cada tarjeta de momento */
+    .moment {
+        margin-bottom: 20px;
+        min-width: auto;
+    }
+    
+    /* Ajuste del título principal */
+    .title {
+        font-size: 3rem;
+    }
+    
+    /* Ajuste del subtítulo */
+    .subtitle {
+        font-size: 1.5rem;
+    }
+    
+    /* Ajuste del poema */
+    .poem {
+        padding: 25px;
+    }
+    
+    .poem h2, .gallery h2 {
+        font-size: 2rem;
+    }
+}
+
+/* Ajustes para dispositivos muy pequeños */
+@media (max-width: 480px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .message p {
+        font-size: 0.95rem;
+    }
+    
+    .signature {
+        font-size: 1.3rem;
+    }
+    
+    .poem-content p {
+        font-size: 1rem;
+    }
+}
+
+/* Animación de latido para el título */
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}

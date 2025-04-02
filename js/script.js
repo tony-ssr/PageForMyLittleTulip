@@ -1,0 +1,248 @@
+/**
+ * Script principal para la página dedicatoria "Para mi tulipán"
+ * Autor: Diego Yaqueno
+ * Versión: 1.0.0
+ * Descripción: Implementa efectos visuales y animaciones para mejorar la experiencia de usuario
+ */
+
+/**
+ * Inicializa todas las funcionalidades cuando el DOM está completamente cargado
+ * Esto asegura que todos los elementos HTML estén disponibles antes de manipularlos
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializa la animación de entrada para los elementos principales
+    animateElements();
+    
+    // Configura el efecto parallax para los tulipanes que responde al movimiento del ratón
+    parallaxEffect();
+    
+    // Configura el efecto de aparición gradual para elementos al hacer scroll
+    revealOnScroll();
+    
+    // Registra eventos para interactividad adicional
+    setupInteractivity();
+});
+
+/**
+ * Anima los elementos principales al cargar la página con un efecto de entrada secuencial
+ * Cada sección aparece gradualmente con un ligero retraso entre ellas para crear un efecto cascada
+ */
+function animateElements() {
+    // Selecciona los elementos principales que serán animados
+    const header = document.querySelector('header');
+    const dedication = document.querySelector('.dedication');
+    const gallery = document.querySelector('.gallery');
+    const poem = document.querySelector('.poem');
+    
+    // Objeto con configuraciones de animación para cada elemento
+    const elements = [
+        { el: header, delay: 300 },
+        { el: dedication, delay: 600 },
+        { el: gallery, delay: 900 },
+        { el: poem, delay: 1200 }
+    ];
+    
+    // Aplica las animaciones a cada elemento con su respectivo retraso
+    elements.forEach(item => {
+        setTimeout(() => {
+            // Hace visible el elemento y lo mueve a su posición final
+            item.el.style.opacity = '1';
+            item.el.style.transform = 'translateY(0)';
+            
+            // Añade una clase para indicar que la animación ha terminado
+            item.el.classList.add('animated');
+        }, item.delay);
+    });
+    
+    // Registra en consola para depuración (solo en desarrollo)
+    console.log('Animaciones de entrada inicializadas');
+}
+
+/**
+ * Implementa un efecto parallax suave para los tulipanes que responde al movimiento del cursor
+ * Los tulipanes se mueven ligeramente en dirección opuesta al movimiento del ratón
+ * creando una sensación de profundidad y dinamismo en la página
+ */
+function parallaxEffect() {
+    // Selecciona todos los elementos de tulipán en la página
+    const tulips = document.querySelectorAll('.tulip');
+    
+    // Si no hay tulipanes, salimos de la función
+    if (tulips.length === 0) {
+        console.warn('No se encontraron elementos de tulipán para el efecto parallax');
+        return;
+    }
+    
+    // Configura el evento de movimiento del ratón
+    window.addEventListener('mousemove', (e) => {
+        // Calcula la posición relativa del cursor (valores entre 0 y 1)
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        // Aplica la transformación a cada tulipán
+        tulips.forEach(tulip => {
+            // Calcula el desplazamiento basado en la posición del cursor
+            // El factor 20 determina la intensidad del efecto
+            const offsetX = (x - 0.5) * 20;
+            const offsetY = (y - 0.5) * 20;
+            
+            // Aplica la transformación con una transición suave (definida en CSS)
+            tulip.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        });
+    });
+    
+    console.log('Efecto parallax inicializado para', tulips.length, 'tulipanes');
+}
+
+/**
+ * Implementa un efecto de revelación gradual para elementos cuando aparecen en el viewport
+ * Utiliza la API Intersection Observer para detectar cuándo los elementos son visibles
+ * y aplicar animaciones de forma eficiente sin afectar el rendimiento
+ */
+function revealOnScroll() {
+    // Selecciona los elementos que se revelarán al hacer scroll
+    const moments = document.querySelectorAll('.moment');
+    const poemContent = document.querySelector('.poem-content');
+    
+    // Verifica si los elementos existen
+    if (!poemContent) {
+        console.warn('No se encontró el contenido del poema para la animación de scroll');
+        return;
+    }
+    
+    // Configuración del Intersection Observer
+    const observerOptions = {
+        root: null,           // Usa el viewport como contenedor
+        rootMargin: '0px',   // Sin margen adicional
+        threshold: 0.1        // Activa cuando al menos 10% del elemento es visible
+    };
+    
+    /**
+     * Callback que se ejecuta cuando los elementos entran o salen del viewport
+     * @param {IntersectionObserverEntry[]} entries - Elementos observados
+     * @param {IntersectionObserver} observer - Instancia del observador
+     */
+    const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            // Si el elemento es visible en el viewport
+            if (entry.isIntersecting) {
+                // Añade la clase que activa la animación
+                entry.target.classList.add('visible');
+                // Deja de observar el elemento una vez que se ha revelado
+                observer.unobserve(entry.target);
+                
+                // Registra para depuración
+                console.log(`Elemento revelado: ${entry.target.className}`);
+            }
+        });
+    };
+    
+    // Crea el observador con la configuración y callback definidos
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    
+    // Configura y observa cada momento en la galería
+    moments.forEach((moment, index) => {
+        // Configura el estado inicial (invisible y desplazado)
+        moment.style.opacity = '0';
+        moment.style.transform = 'translateY(20px)';
+        // Añade un retraso progresivo para crear un efecto cascada
+        moment.style.transitionDelay = `${index * 0.1}s`;
+        // Comienza a observar el elemento
+        observer.observe(moment);
+    });
+    
+    // Configura y observa el contenido del poema
+    poemContent.style.opacity = '0';
+    poemContent.style.transform = 'translateY(20px)';
+    observer.observe(poemContent);
+    
+    // Añade los estilos CSS necesarios para las transiciones
+    addRevealStyles();
+    
+    console.log('Efecto de revelación al scroll inicializado');
+}
+
+/**
+ * Añade los estilos CSS necesarios para las animaciones de revelación
+ * Se hace mediante JavaScript para mantener los estilos relacionados con
+ * la funcionalidad junto al código que los utiliza
+ */
+function addRevealStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        /* Estilos para elementos que se revelan al hacer scroll */
+        .moment, .poem-content {
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .moment.visible, .poem-content.visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        
+        /* Estilos para la animación inicial de las secciones principales */
+        header, .dedication, .gallery, .poem {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+/**
+ * Configura interactividad adicional para elementos de la página
+ * Añade efectos hover y eventos de clic para mejorar la experiencia de usuario
+ */
+function setupInteractivity() {
+    // Añade efectos de hover a los momentos
+    const moments = document.querySelectorAll('.moment');
+    moments.forEach(moment => {
+        // Añade un efecto de brillo al pasar el ratón
+        moment.addEventListener('mouseenter', () => {
+            moment.style.boxShadow = '0 8px 25px rgba(231, 84, 128, 0.3)';
+        });
+        
+        moment.addEventListener('mouseleave', () => {
+            moment.style.boxShadow = '';
+        });
+        
+        // Añade un efecto de clic para destacar el momento
+        moment.addEventListener('click', () => {
+            // Elimina la clase 'active' de todos los momentos
+            moments.forEach(m => m.classList.remove('active'));
+            // Añade la clase 'active' al momento clicado
+            moment.classList.add('active');
+        });
+    });
+    
+    // Añade un efecto especial al título principal
+    const title = document.querySelector('.title');
+    if (title) {
+        title.addEventListener('click', () => {
+            // Añade una animación de latido al hacer clic en el título
+            title.style.animation = 'heartbeat 1.5s ease-in-out';
+            
+            // Elimina la animación después de que termine
+            setTimeout(() => {
+                title.style.animation = '';
+            }, 1500);
+        });
+    }
+    
+    // Añade interactividad a la firma
+    const signature = document.querySelector('.signature');
+    if (signature) {
+        signature.addEventListener('mouseenter', () => {
+            signature.style.transform = 'scale(1.05)';
+            signature.style.color = '#e75480';
+        });
+        
+        signature.addEventListener('mouseleave', () => {
+            signature.style.transform = '';
+            signature.style.color = '';
+        });
+    }
+    
+    console.log('Interactividad adicional configurada');
+}

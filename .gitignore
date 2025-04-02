@@ -1,0 +1,35 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+*~
+
+# Directorios de dependencias y entornos virtuales
+node_modules/
+venv/
+env/
+.env
+
+# Archivos de configuración de IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de caché y compilados
+.sass-cache/
+*.css.map
+*.js.map
+
+# Archivos de respaldo
+*.bak
+*.backup
+
+# Archivos específicos del proyecto que no deben ser compartidos
+# Agrega aquí cualquier archivo específico que no deba ser incluido en el repositorio

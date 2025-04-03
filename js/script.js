@@ -285,6 +285,15 @@ function createBackgroundTulips() {
         const tulip = document.createElement('div');
         tulip.className = `bg-tulip ${type.size} ${type.color}`;
         
+        // Añade las hojas al tulipán
+        const leafLeft = document.createElement('div');
+        leafLeft.className = 'leaf-left';
+        tulip.appendChild(leafLeft);
+        
+        const leafRight = document.createElement('div');
+        leafRight.className = 'leaf-right';
+        tulip.appendChild(leafRight);
+        
         // Posiciona el tulipán aleatoriamente en la pantalla
         const posX = Math.random() * 100; // Posición horizontal (0-100%)
         const posY = Math.random() * 100; // Posición vertical (0-100%)

@@ -86,6 +86,7 @@ body {
     opacity: var(--tulip-bg-opacity);
     transform-origin: center bottom;
     will-change: transform; /* Optimiza las animaciones */
+    z-index: -1; /* Asegura que estén detrás del contenido */
 }
 
 /* Variantes de tulipanes para el fondo */
@@ -107,6 +108,38 @@ body {
     animation: floatAnimation 12s infinite ease-in-out, rotateAnimation 15s infinite linear;
 }
 
+/* Hojas para los tulipanes de fondo */
+.bg-tulip .leaf-left,
+.bg-tulip .leaf-right {
+    content: '';
+    position: absolute;
+    background-color: var(--color-accent);
+    border-radius: 8px 8px 0 8px;
+    transform-origin: bottom left;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+/* Hoja izquierda para tulipanes de fondo */
+.bg-tulip .leaf-left {
+    width: 20%;
+    height: 10%;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-15px) rotate(-40deg);
+    box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Hoja derecha para tulipanes de fondo */
+.bg-tulip .leaf-right {
+    width: 20%;
+    height: 10%;
+    bottom: 45%;
+    left: 50%;
+    transform: translateX(0) rotate(30deg) scaleX(-1);
+    box-shadow: inset 1px -1px 2px rgba(0, 0, 0, 0.1);
+}
+
 /* Estructura base del tulipán de fondo */
 .bg-tulip::before {
     content: '';
@@ -114,11 +147,12 @@ body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 6px;
-    height: 60%;
+    width: 4px; /* Tallo más fino */
+    height: 65%; /* Tallo ligeramente más largo */
     background-color: var(--color-accent);
-    border-radius: 3px;
+    border-radius: 2px;
     opacity: 0.8;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
 }
 
 .bg-tulip::after {
@@ -131,6 +165,7 @@ body {
     height: 50%;
     border-radius: 50% 50% 0 0;
     opacity: 0.9;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%); /* Gradiente para dar más detalle a los pétalos */
 }
 
 /* Variantes de color para los tulipanes de fondo */
@@ -444,7 +479,7 @@ input:checked ~ .theme-icon.dark {
 /* Estructura base del tulipán */
 .tulip {
     width: 100px;
-    height: 150px;
+    height: 180px;
     position: relative;
     transition: transform 0.3s ease;
 }
@@ -461,11 +496,42 @@ input:checked ~ .theme-icon.dark {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 8px;
-    height: 100px;
+    width: 5px; /* Tallo más fino */
+    height: 120px; /* Tallo más largo */
     background-color: var(--color-accent);
-    border-radius: 4px;
+    border-radius: 2px;
     transition: height 0.3s ease;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
+}
+
+/* Hojas del tulipán */
+.tulip .leaf-left, 
+.tulip .leaf-right {
+    content: '';
+    position: absolute;
+    background-color: var(--color-accent);
+    width: 25px;
+    height: 12px;
+    border-radius: 12px 12px 0 12px;
+    transform-origin: bottom left;
+    z-index: -1;
+    transition: transform 0.3s ease;
+}
+
+/* Hoja izquierda */
+.tulip .leaf-left {
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-15px) rotate(-40deg);
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hoja derecha */
+.tulip .leaf-right {
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(0) rotate(30deg) scaleX(-1);
+    box-shadow: inset 2px -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Flor del tulipán (pseudo-elemento) */
@@ -481,6 +547,8 @@ input:checked ~ .theme-icon.dark {
     border-radius: 50% 50% 0 0;
     box-shadow: -20px 0 0 var(--color-primary), 20px 0 0 var(--color-primary);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Gradiente para dar más detalle a los pétalos */
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
 }
 
 /* Variante de color para el tulipán izquierdo */
@@ -662,7 +730,7 @@ footer p:hover {
 /* Tulipán decorativo en el pie de página */
 .tulip-footer {
     width: 40px;
-    height: 60px;
+    height: 70px; /* Altura aumentada para acomodar las hojas */
     margin: 20px auto;
     position: relative;
     transition: transform 0.3s ease;
@@ -680,10 +748,40 @@ footer p:hover {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 4px;
-    height: 40px;
+    width: 3px; /* Tallo más fino */
+    height: 45px; /* Tallo ligeramente más largo */
     background-color: var(--color-accent);
     border-radius: 2px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Hojas del tulipán del pie de página */
+.tulip-footer .leaf-left,
+.tulip-footer .leaf-right {
+    content: '';
+    position: absolute;
+    background-color: var(--color-accent);
+    width: 15px;
+    height: 8px;
+    border-radius: 8px 8px 0 8px;
+    transform-origin: bottom left;
+    z-index: -1;
+}
+
+/* Hoja izquierda del pie de página */
+.tulip-footer .leaf-left {
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-10px) rotate(-40deg);
+    box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Hoja derecha del pie de página */
+.tulip-footer .leaf-right {
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(0) rotate(30deg) scaleX(-1);
+    box-shadow: inset 1px -1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Flor del tulipán del pie de página */
@@ -699,6 +797,7 @@ footer p:hover {
     border-radius: 50% 50% 0 0;
     box-shadow: -10px 0 0 var(--color-primary), 10px 0 0 var(--color-primary);
     transition: transform 0.3s ease;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%); /* Gradiente para dar más detalle a los pétalos */
 }
 
 /* ====== ESTILOS RESPONSIVE ====== */
@@ -886,7 +985,7 @@ footer p:hover {
 /* Tulipán decorativo en el pie de página */
 .tulip-footer {
     width: 40px;
-    height: 60px;
+    height: 70px; /* Altura aumentada para acomodar las hojas */
     margin: 20px auto;
     position: relative;
     transition: transform 0.3s ease;
@@ -904,10 +1003,40 @@ footer p:hover {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 4px;
-    height: 40px;
+    width: 3px; /* Tallo más fino */
+    height: 45px; /* Tallo ligeramente más largo */
     background-color: var(--color-accent);
     border-radius: 2px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Hojas del tulipán del pie de página */
+.tulip-footer .leaf-left,
+.tulip-footer .leaf-right {
+    content: '';
+    position: absolute;
+    background-color: var(--color-accent);
+    width: 15px;
+    height: 8px;
+    border-radius: 8px 8px 0 8px;
+    transform-origin: bottom left;
+    z-index: -1;
+}
+
+/* Hoja izquierda del pie de página */
+.tulip-footer .leaf-left {
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-10px) rotate(-40deg);
+    box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Hoja derecha del pie de página */
+.tulip-footer .leaf-right {
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(0) rotate(30deg) scaleX(-1);
+    box-shadow: inset 1px -1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Flor del tulipán del pie de página */
@@ -923,4 +1052,5 @@ footer p:hover {
     border-radius: 50% 50% 0 0;
     box-shadow: -10px 0 0 var(--color-primary), 10px 0 0 var(--color-primary);
     transition: transform 0.3s ease;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%); /* Gradiente para dar más detalle a los pétalos */
 }

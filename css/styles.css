@@ -865,8 +865,22 @@ footer p:hover {
         padding: 25px;
     }
     
-    .poem h2, .gallery h2 {
+    .poem h2, .gallery h2, .book-carousel h2 {
         font-size: 2rem;
+    }
+    
+    /* Ajustes para el carrusel tipo libro */
+    .book-container {
+        height: 300px;
+    }
+    
+    .book-message {
+        font-size: 1.2rem;
+        padding: 15px;
+    }
+    
+    .book-image {
+        max-height: 220px;
     }
 }
 
@@ -914,12 +928,227 @@ footer p:hover {
     .theme-icon {
         font-size: 12px;
     }
+    
+    /* Ajustes adicionales para el carrusel tipo libro en móviles pequeños */
+    .book-container {
+        height: 250px;
+    }
+    
+    .book-message {
+        font-size: 1rem;
+        padding: 10px;
+        margin: 10px 0;
+    }
+    
+    .book-image {
+        max-height: 180px;
+    }
+    
+    .book-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .book-controls {
+        gap: 20px;
+        margin-top: 20px;
+    }
 }
 
 /* Animación de crecimiento para los tulipanes */
 @keyframes tulipGrow {
     0% { transform: scale(0.8) translateY(10px); }
     100% { transform: scale(1) translateY(0); }
+}
+
+/* ====== CARRUSEL TIPO LIBRO ====== */
+/* Contenedor principal del carrusel tipo libro */
+.book-carousel {
+    margin: 60px 0;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+}
+
+/* Título del carrusel */
+.book-carousel h2 {
+    font-family: var(--font-decorative);
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+/* Línea decorativa debajo del título */
+.book-carousel h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-primary);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Contenedor del libro */
+.book-container {
+    max-width: 800px;
+    height: 400px;
+    margin: 0 auto;
+    perspective: 1500px;
+    position: relative;
+}
+
+/* Estructura del libro */
+.book {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Páginas del libro */
+.book-page {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    background-color: var(--color-card-bg);
+    box-shadow: var(--shadow-soft);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Página izquierda */
+.page-left {
+    left: 0;
+    transform-origin: right center;
+    z-index: 1;
+    border-radius: 5px 0 0 5px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Página derecha */
+.page-right {
+    right: 0;
+    transform-origin: left center;
+    z-index: 0;
+    border-radius: 0 5px 5px 0;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Contenido de las páginas */
+.page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: var(--color-section-bg);
+}
+
+/* Imágenes dentro del libro */
+.book-image {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.book-image:hover {
+    transform: scale(1.03);
+}
+
+/* Mensajes dentro del libro */
+.book-message {
+    font-family: var(--font-decorative);
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    text-align: center;
+    line-height: 1.6;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-message:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(142, 68, 173, 0.2);
+}
+
+/* Controles del carrusel */
+.book-controls {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+/* Botones de navegación */
+.book-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-section-bg);
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-btn:hover {
+    background-color: var(--color-primary);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(231, 84, 128, 0.3);
+}
+
+.book-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(231, 84, 128, 0.3);
+}
+
+/* Icono dentro de los botones */
+.btn-icon {
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Clase para la animación de pasar página */
+.turning-left {
+    transform: rotateY(-180deg);
+}
+
+.turning-right {
+    transform: rotateY(0deg);
+}
+
+/* Efecto de página volteada */
+.book.turning-left .page-left {
+    transform: rotateY(-180deg);
+    z-index: 0;
+}
+
+.book.turning-right .page-right {
+    transform: rotateY(180deg);
+    z-index: 1;
 }
 
 /* Aplicamos la animación a los tulipanes */

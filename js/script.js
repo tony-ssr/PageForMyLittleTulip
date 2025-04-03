@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializa el sistema de temas (claro/oscuro)
     initThemeSystem();
+    
+    // Inicializa el carrusel tipo libro
+    initBookCarousel();
 });
 
 /**
@@ -486,4 +489,146 @@ function initThemeSystem() {
     });
     
     console.log('Sistema de temas inicializado con animaciones mejoradas');
+}
+
+/**
+ * Inicializa el carrusel tipo libro con imágenes de Ana
+ * Configura la navegación entre imágenes con efecto de pasar página
+ * y funcionalidad de bucle para recorrer todas las imágenes
+ */
+function initBookCarousel() {
+    // Datos para el carrusel (imágenes y mensajes)
+    const carouselData = [
+        {
+            image: 'img/A/A - 1.jpg',
+            message: 'Cada vez que veo tu sonrisa, mi corazón florece como un tulipán en primavera.'
+        },
+        {
+            image: 'img/A/A - 2.jpg',
+            message: 'Tus ojos son el jardín donde mis sueños encuentran su hogar, Ana hermosa.'
+        },
+        {
+            image: 'img/A/A - 3.jpg',
+            message: 'Como un tulipán que busca la luz, yo busco tu mirada cada día.'
+        },
+        {
+            image: 'img/A/A - 4.jpg',
+            message: 'Eres la melodía que hace que mi corazón baile al ritmo del amor.'
+        },
+        {
+            image: 'img/A/A - 5.jpg',
+            message: 'En cada pétalo de mi corazón está escrito tu nombre, mi dulce Ana.'
+        },
+        {
+            image: 'img/A/A - 6.jpg',
+            message: 'Contigo, cada día es primavera y cada momento florece en mi memoria.'
+        }
+    ];
+    
+    // Elementos del DOM
+    const book = document.querySelector('.book');
+    const pageLeft = document.querySelector('.page-left .page-content');
+    const pageRight = document.querySelector('.page-right .page-content');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    // Si no se encuentran los elementos necesarios, salimos de la función
+    if (!book || !pageLeft || !pageRight || !prevBtn || !nextBtn) {
+        console.warn('No se encontraron los elementos necesarios para el carrusel tipo libro');
+        return;
+    }
+    
+    // Índice actual del carrusel
+    let currentIndex = 0;
+    let isAnimating = false;
+    
+    // Función para actualizar el contenido de las páginas
+    function updatePages() {
+        // Actualiza la página izquierda (imagen)
+        pageLeft.innerHTML = `<img src="${carouselData[currentIndex].image}" alt="Ana" class="book-image">`;
+        
+        // Actualiza la página derecha (mensaje)
+        pageRight.innerHTML = `<p class="book-message">${carouselData[currentIndex].message}</p>`;
+    }
+    
+    // Función para ir a la página anterior
+    function goToPrevPage() {
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        // Efecto de página volteándose hacia la derecha
+        book.classList.add('turning-right');
+        
+        // Después de un breve retraso, actualizamos el índice y el contenido
+        setTimeout(() => {
+            // Actualizamos el índice (con bucle)
+            currentIndex = (currentIndex - 1 + carouselData.length) % carouselData.length;
+            
+            // Actualizamos el contenido
+            updatePages();
+            
+            // Quitamos la clase de animación
+            book.classList.remove('turning-right');
+            isAnimating = false;
+        }, 400); // Mitad del tiempo de la transición
+    }
+    
+    // Función para ir a la página siguiente
+    function goToNextPage() {
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        // Efecto de página volteándose hacia la izquierda
+        book.classList.add('turning-left');
+        
+        // Después de un breve retraso, actualizamos el índice y el contenido
+        setTimeout(() => {
+            // Actualizamos el índice (con bucle)
+            currentIndex = (currentIndex + 1) % carouselData.length;
+            
+            // Actualizamos el contenido
+            updatePages();
+            
+            // Quitamos la clase de animación
+            book.classList.remove('turning-left');
+            isAnimating = false;
+        }, 400); // Mitad del tiempo de la transición
+    }
+    
+    // Configuramos los eventos de los botones
+    prevBtn.addEventListener('click', goToPrevPage);
+    nextBtn.addEventListener('click', goToNextPage);
+    
+    // Inicializamos el carrusel con el primer elemento
+    updatePages();
+    
+    // Añadimos efectos visuales a los botones
+    [prevBtn, nextBtn].forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            btn.style.transform = 'scale(1.1) rotate(5deg)';
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = '';
+        });
+        
+        btn.addEventListener('mousedown', () => {
+            btn.style.transform = 'scale(0.95)';
+        });
+        
+        btn.addEventListener('mouseup', () => {
+            btn.style.transform = 'scale(1.1) rotate(5deg)';
+        });
+    });
+    
+    // Añadimos interacción con el teclado para accesibilidad
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            goToPrevPage();
+        } else if (e.key === 'ArrowRight') {
+            goToNextPage();
+        }
+    });
+    
+    console.log('Carrusel tipo libro inicializado con', carouselData.length, 'imágenes');
 }

@@ -643,6 +643,124 @@ input:checked ~ .theme-icon.dark {
     display: inline-block;
 }
 
+/* ====== SECCIÓN DE FOTOS DE INFANCIA ====== */
+/* Contenedor principal de la sección de fotos de infancia */
+.childhood-photos {
+    margin: 60px 0;
+    text-align: center;
+    transition: opacity 0.5s ease;
+}
+
+/* Título de la sección de fotos de infancia */
+.childhood-photos h2 {
+    font-family: var(--font-decorative);
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+/* Línea decorativa debajo del título */
+.childhood-photos h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-primary);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Contenedor de los marcos de fotos */
+.photo-frames {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+/* Marco individual para cada foto */
+.photo-frame {
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover para el marco de foto */
+.photo-frame:hover {
+    transform: translateY(-10px) rotate(2deg);
+}
+
+/* Estilo del marco tipo pintura */
+.frame {
+    border: 15px solid #e8d9b0;
+    border-radius: 5px;
+    box-shadow: 
+        0 0 0 2px #d4c28e,
+        0 0 0 15px #f5ecd6,
+        0 0 8px rgba(0, 0, 0, 0.3),
+        inset 0 0 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #f5ecd6;
+    padding: 5px;
+}
+
+/* Efecto de textura para el marco */
+.frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23d4c28e" stroke-width="0.5" stroke-dasharray="2,2" /></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Imagen dentro del marco */
+.childhood-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+    transform-origin: center;
+}
+
+/* Efecto hover para la imagen */
+.frame:hover .childhood-image {
+    transform: scale(1.05);
+}
+
+/* Título y descripción debajo del marco */
+.frame-caption {
+    padding: 15px;
+    text-align: center;
+}
+
+/* Título de la foto */
+.frame-caption h3 {
+    color: var(--color-secondary);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-family: var(--font-decorative);
+}
+
+/* Descripción de la foto */
+.frame-caption p {
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+/* Efecto hover para la descripción */
+.frame-caption p:hover {
+    color: var(--color-primary);
+}
+
 /* ====== SECCIÓN DE POEMA ====== */
 /* Contenedor principal de la sección del poema */
 .poem {
@@ -1137,7 +1255,7 @@ footer p:hover {
 }
 
 .turning-right {
-    transform: rotateY(0deg);
+    transform: rotateY(180deg);
 }
 
 /* Efecto de página volteada */
@@ -1148,7 +1266,7 @@ footer p:hover {
 
 .book.turning-right .page-right {
     transform: rotateY(180deg);
-    z-index: 1;
+    z-index: 0;
 }
 
 /* Aplicamos la animación a los tulipanes */

@@ -44,6 +44,7 @@ function animateElements() {
     const header = document.querySelector('header');
     const dedication = document.querySelector('.dedication');
     const gallery = document.querySelector('.gallery');
+    const childhood = document.querySelector('.childhood-photos');
     const poem = document.querySelector('.poem');
     
     // Objeto con configuraciones de animación para cada elemento
@@ -51,7 +52,8 @@ function animateElements() {
         { el: header, delay: 300 },
         { el: dedication, delay: 600 },
         { el: gallery, delay: 900 },
-        { el: poem, delay: 1200 }
+        { el: childhood, delay: 1100 },
+        { el: poem, delay: 1300 }
     ];
     
     // Aplica las animaciones a cada elemento con su respectivo retraso
@@ -114,6 +116,7 @@ function parallaxEffect() {
 function revealOnScroll() {
     // Selecciona los elementos que se revelarán al hacer scroll
     const moments = document.querySelectorAll('.moment');
+    const photoFrames = document.querySelectorAll('.photo-frame');
     const poemContent = document.querySelector('.poem-content');
     
     // Verifica si los elementos existen
@@ -163,6 +166,17 @@ function revealOnScroll() {
         observer.observe(moment);
     });
     
+    // Configura y observa cada marco de foto en la sección de infancia
+    photoFrames.forEach((frame, index) => {
+        // Configura el estado inicial (invisible y desplazado)
+        frame.style.opacity = '0';
+        frame.style.transform = 'translateY(20px)';
+        // Añade un retraso progresivo para crear un efecto cascada
+        frame.style.transitionDelay = `${index * 0.2}s`;
+        // Comienza a observar el elemento
+        observer.observe(frame);
+    });
+    
     // Configura y observa el contenido del poema
     poemContent.style.opacity = '0';
     poemContent.style.transform = 'translateY(20px)';
@@ -183,17 +197,17 @@ function addRevealStyles() {
     const style = document.createElement('style');
     style.textContent = `
         /* Estilos para elementos que se revelan al hacer scroll */
-        .moment, .poem-content {
+        .moment, .photo-frame, .poem-content {
             transition: opacity 0.8s ease, transform 0.8s ease;
         }
         
-        .moment.visible, .poem-content.visible {
+        .moment.visible, .photo-frame.visible, .poem-content.visible {
             opacity: 1 !important;
             transform: translateY(0) !important;
         }
         
         /* Estilos para la animación inicial de las secciones principales */
-        header, .dedication, .gallery, .poem {
+        header, .dedication, .gallery, .childhood-photos, .poem {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;

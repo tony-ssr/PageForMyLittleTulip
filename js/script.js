@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function animateElements() {
     // Selecciona los elementos principales que serán animados
     const header = document.querySelector('header');
+    const videoDedication = document.querySelector('.video-dedication');
     const dedication = document.querySelector('.dedication');
     const gallery = document.querySelector('.gallery');
     const poem = document.querySelector('.poem');
@@ -37,9 +38,10 @@ function animateElements() {
     // Objeto con configuraciones de animación para cada elemento
     const elements = [
         { el: header, delay: 300 },
-        { el: dedication, delay: 600 },
-        { el: gallery, delay: 900 },
-        { el: poem, delay: 1200 }
+        { el: videoDedication, delay: 500 },
+        { el: dedication, delay: 700 },
+        { el: gallery, delay: 1000 },
+        { el: poem, delay: 1400 }
     ];
     
     // Aplica las animaciones a cada elemento con su respectivo retraso

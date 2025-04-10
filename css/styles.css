@@ -47,6 +47,368 @@ header {
     text-align: center;
     padding: 40px 0;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ====== SECCIÓN DE VIDEO DEDICADO ====== */
+/* Contenedor principal de la sección de video */
+.video-dedication {
+    margin: 50px 0;
+    padding: 20px;
+    position: relative;
+}
+
+/* Tarjeta que contiene el video y la nota */
+.video-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-section-bg);
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Media query para pantallas más grandes */
+@media (min-width: 768px) {
+    .video-card {
+        flex-direction: row;
+    }
+    
+    .video-container {
+        width: 50%;
+        padding: 20px;
+    }
+    
+    .love-note {
+        width: 50%;
+        margin: 20px 20px 20px 0;
+    }
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 767px) {
+    .video-container {
+        padding: 15px 15px 0 15px;
+    }
+    
+    .love-note {
+        margin: 15px;
+        padding: 20px;
+    }
+    
+    .love-note h2 {
+        font-size: 1.8rem;
+    }
+    
+    .note-content p {
+        font-size: 1rem;
+    }
+    
+    .signature-note {
+        padding-right: 20px;
+        font-size: 1.4rem;
+    }
+}
+
+/* Animaciones para la sección de video */
+.video-dedication {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Contenedor del video con bordes redondeados */
+.video-container {
+    width: 100%;
+    padding: 20px 20px 0 20px;
+}
+
+/* Estilos para el elemento de video */
+.video-container video {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.video-container video:hover {
+    opacity: 1;
+}
+
+/* Estilos para la nota de amor */
+.love-note {
+    padding: 30px;
+    position: relative;
+    background-color: rgba(255, 245, 238, 0.7); /* Fondo tipo papel antiguo con opacidad */
+    margin: 20px;
+    border-radius: 15px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(231, 84, 128, 0.3);
+}
+
+/* Título de la nota */
+.love-note h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenido de la nota */
+.note-content {
+    font-family: 'Montserrat', serif;
+    line-height: 1.8;
+    color: var(--color-text);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding: 10px 25px;
+}
+
+/* Fecha de la nota */
+.note-date {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    margin-bottom: 15px;
+}
+
+/* Párrafos dentro de la nota */
+.note-content p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s ease;
+}
+
+/* Efecto hover para los párrafos */
+.note-content p:hover {
+    transform: translateY(-2px);
+}
+
+/* Destacado para el nombre de la canción */
+.highlight {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* Firma al final de la nota */
+.signature-note {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: var(--color-secondary);
+    margin-top: 20px;
+    text-align: right;
+    padding-right: 40px;
+}
+
+/* Efecto de papel antiguo */
+.love-note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="none"/><path d="M0 0L100 100M100 0L0 100" stroke="rgba(231, 84, 128, 0.05)" stroke-width="0.5"/></svg>');
+    border-radius: 15px;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+/* Efecto de esquinas dobladas */
+.love-note::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, transparent 50%, rgba(231, 84, 128, 0.1) 50%);
+    border-radius: 0 15px 0 15px;
+}
+
+/* Estilos para el toggle switch de tema - Versión mejorada */
+.theme-toggle-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.theme-toggle-container:hover {
+    transform: scale(1.08) rotate(5deg);
+}
+
+.theme-toggle {
+    position: relative;
+    display: inline-block;
+    width: 75px;
+    height: 36px;
+    cursor: pointer;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.1));
+}
+
+.theme-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-card-bg);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 2px solid var(--color-primary);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15), 0 0 15px rgba(231, 84, 128, 0.2);
+    overflow: hidden;
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 28px;
+    width: 28px;
+    left: 4px;
+    bottom: 2px;
+    background-color: var(--color-primary);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+/* Efecto de tulipán mejorado para el botón */
+.slider:after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 16px;
+    height: 20px;
+    background-color: var(--color-accent);
+    border-radius: 50% 50% 0 0;
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+    box-shadow: -5px 0 0 var(--color-accent), 5px 0 0 var(--color-accent);
+}
+
+.theme-toggle:hover .slider:before {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.theme-toggle:hover .slider:after {
+    opacity: 0.3;
+    transform: translateX(-50%) scale(0.8);
+}
+
+input:checked + .slider {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.2), 0 0 20px rgba(142, 68, 173, 0.3);
+}
+
+input:checked + .slider:before {
+    transform: translateX(39px) rotate(360deg);
+    background-color: var(--color-background);
+}
+
+input:checked + .slider:after {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1);
+    background-color: var(--color-secondary);
+    box-shadow: -5px 0 0 var(--color-secondary), 5px 0 0 var(--color-secondary);
+}
+
+.theme-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 3;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.theme-icon.light {
+    left: 10px;
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.5));
+}
+
+.theme-icon.dark {
+    right: 10px;
+    opacity: 0.5;
+    transform: translateY(-50%) scale(0.8) rotate(-45deg);
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+}
+
+input:checked ~ .theme-icon.light {
+    opacity: 0.5;
+    transform: translateY(-50%) scale(0.8) rotate(45deg);
+    filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.3));
+}
+
+input:checked ~ .theme-icon.dark {
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 8px rgba(142, 68, 173, 0.6));
+}
+
+/* Efectos mejorados para los iconos */
+.theme-toggle:hover .theme-icon.light {
+    animation: sunPulse 1.5s infinite alternate;
+}
+
+.theme-toggle:hover .theme-icon.dark {
+    animation: moonGlow 1.5s infinite alternate;
+}
+
+@keyframes sunPulse {
+    0% { transform: translateY(-50%) scale(1) rotate(0deg); filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.5)); }
+    50% { filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8)); }
+    100% { transform: translateY(-50%) scale(1.2) rotate(15deg); filter: drop-shadow(0 0 20px rgba(255, 204, 0, 0.7)); }
+}
+
+@keyframes moonGlow {
+    0% { transform: translateY(-50%) scale(1) rotate(0deg); filter: drop-shadow(0 0 5px rgba(142, 68, 173, 0.5)); }
+    50% { filter: drop-shadow(0 0 12px rgba(142, 68, 173, 0.8)); }
+    100% { transform: translateY(-50%) scale(1.2) rotate(-15deg); filter: drop-shadow(0 0 20px rgba(142, 68, 173, 0.7)); }
+>>>>>>> Stashed changes
 }
 
 /* Título principal con fuente decorativa */

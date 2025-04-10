@@ -408,7 +408,6 @@ input:checked ~ .theme-icon.dark {
     0% { transform: translateY(-50%) scale(1) rotate(0deg); filter: drop-shadow(0 0 5px rgba(142, 68, 173, 0.5)); }
     50% { filter: drop-shadow(0 0 12px rgba(142, 68, 173, 0.8)); }
     100% { transform: translateY(-50%) scale(1.2) rotate(-15deg); filter: drop-shadow(0 0 20px rgba(142, 68, 173, 0.7)); }
->>>>>>> Stashed changes
 }
 
 /* Título principal con fuente decorativa */

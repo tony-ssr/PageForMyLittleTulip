@@ -10,10 +10,11 @@
 Una página web dedicada creada con amor por Diego Yaqueno para Ana Rosero, desarrollada por Antony Salcedo. La temática gira en torno a los tulipanes, simbolizando belleza y amor.
 
 Este proyecto es una expresión digital de cariño que combina elementos visuales atractivos con interactividad significativa. La página incluye:
-- Galería fotográfica de momentos especiales
-- Mensajes personalizados con efectos visuales
-- Sección de video con contenido emotivo
+- Galería fotográfica interactiva con ventana modal
+- Carrusel tipo libro con imágenes y mensajes
+- Sección de videos dedicados con reproductor personalizado
 - Diseño responsive para todos los dispositivos
+- Recuerdos de infancia en marcos decorativos
 
 ## ✨ Características principales
 
@@ -22,10 +23,12 @@ Este proyecto es una expresión digital de cariño que combina elementos visuale
 - Efectos parallax en elementos decorativos
 - Transiciones suaves entre secciones
 - Tema de color personalizable mediante variables CSS
+- Marcos decorativos para fotos de infancia
 
 ### 💡 Funcionalidades
 - Modo claro/oscuro con persistencia de preferencia
-- Galería interactiva con navegación intuitiva
+- Galería modal para visualización de imágenes y videos
+- Carrusel tipo libro con navegación intuitiva
 - Reproductor de video personalizado
 - Efectos al hacer scroll usando Intersection Observer API
 
@@ -99,15 +102,26 @@ Para mi tulipan/
 │   ├── A/               # Fotos de Ana
 │   └── MC/              # Fotos de Minecraft
 ├── vdo/
-│   └── A/                # Videos
+│   ├── A&D/             # Videos de momentos juntos
+│   └── A/               # Videos dedicados
 ├── .gitignore           # Archivos ignorados por git
 ├── LICENSE              # Licencia MIT
 └── README.md            # Este archivo
 ```
 
-## 🖼️ Capturas de pantalla
+## 🖼️ Características de la galería
 
-(Sección para agregar capturas de pantalla posteriormente)
+### Modal interactivo
+- Visualización de imágenes a pantalla completa
+- Soporte para reproducción de videos
+- Títulos descriptivos para cada contenido
+- Botón de cierre intuitivo
+
+### Carrusel tipo libro
+- Navegación suave entre páginas
+- Combinación de imágenes y mensajes
+- Controles intuitivos (anterior/siguiente)
+- Animaciones de transición fluidas
 
 ## 🛠️ Guía de desarrollo
 

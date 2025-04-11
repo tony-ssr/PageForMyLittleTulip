@@ -18,6 +18,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
 <body>
     <!-- Contenedor para los tulipanes animados de fondo (se llenará con JavaScript) -->
@@ -37,6 +43,71 @@
             </div>
             <h1 class="title">Para mi tulipán</h1>
             <div class="subtitle">Ana Rosero</div>
+            
+            <!-- Reproductor de música -->
+            <div class="music-player-container">
+                <div class="music-player">
+                    <div class="song-info">
+                        <div class="song-image">
+                            <img id="song-cover" src="sng/Icn/Amor - Alta Elegancia x DannyLux.png" alt="Portada de canción">
+                        </div>
+                        <div class="song-details">
+                            <div id="song-title">Amor</div>
+                            <div id="song-artist">Alta Elegancia x DannyLux</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <span id="current-time">0:00</span>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress"></div>
+                        </div>
+                        <span id="duration">0:00</span>
+                    </div>
+                    
+                    <div class="controls">
+                        <button id="shuffle" class="control-btn" title="Reproducción aleatoria">
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <button id="prev" class="control-btn" title="Anterior">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button id="play" class="control-btn play-btn" title="Reproducir">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="next" class="control-btn" title="Siguiente">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <button id="repeat" class="control-btn" title="Repetir">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="volume-container">
+                        <button id="mute" class="control-btn" title="Silenciar">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <div class="volume-slider">
+                            <div class="volume-bar">
+                                <div class="volume" id="volume"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="playlist-container">
+                        <button id="playlist-toggle" class="control-btn" title="Lista de reproducción">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <div class="playlist" id="playlist">
+                            <ul>
+                                <li data-src="sng/Rpr/Amor - Alta Elegancia x DannyLux.mp3" data-cover="sng/Icn/Amor - Alta Elegancia x DannyLux.png" data-title="Amor" data-artist="Alta Elegancia x DannyLux" class="active">Amor - Alta Elegancia x DannyLux</li>
+                                <li data-src="sng/Rpr/Diciembre - Eslabon Armado.mp3" data-cover="sng/Icn/Diciembre - Eslabon Armado.png" data-title="Diciembre" data-artist="Eslabon Armado">Diciembre - Eslabon Armado</li>
+                                <li data-src="sng/Rpr/Ojitos de Miel - T3R Elemento.mp3" data-cover="sng/Icn/Ojitos de Miel - T3R Elemento.png" data-title="Ojitos de Miel" data-artist="T3R Elemento">Ojitos de Miel - T3R Elemento</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
         
         <!-- Contenido principal de la página -->
@@ -253,5 +324,6 @@
     </div>
     
     <script src="js/script.js"></script>
+    <script src="js/music-player.js"></script>
 </body>
 </html>

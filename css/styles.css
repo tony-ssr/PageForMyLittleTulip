@@ -24,6 +24,15 @@
     --tulip-bg-opacity: 0.15;      /* Opacidad para los tulipanes de fondo */
     --font-decorative: 'Dancing Script', cursive;  /* Fuente decorativa */
     --font-main: 'Montserrat', sans-serif;         /* Fuente principal */
+    
+    /* Variables para el reproductor de música */
+    --player-bg: rgba(248, 241, 255, 0.9);         /* Fondo del reproductor */
+    --player-control-color: #8e44ad;               /* Color de controles */
+    --player-control-hover: #e75480;               /* Color hover de controles */
+    --player-progress-bg: #e0e0e0;                 /* Fondo de barra de progreso */
+    --player-progress-color: #e75480;              /* Color de barra de progreso */
+    --player-text-color: #333;                     /* Color de texto del reproductor */
+    --player-shadow: 0 4px 15px rgba(142, 68, 173, 0.2); /* Sombra del reproductor */
 }
 
 /* Variables para modo oscuro */
@@ -39,6 +48,15 @@
     --color-moment-hover: #3d3d3d; /* Color hover para momentos */
     --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.3);  /* Sombra suave más oscura */
     --shadow-hover: 0 12px 25px rgba(183, 111, 211, 0.3); /* Sombra para hover */
+    
+    /* Variables para el reproductor de música en modo oscuro */
+    --player-bg: rgba(45, 45, 45, 0.9);         /* Fondo del reproductor */
+    --player-control-color: #b76fd3;            /* Color de controles */
+    --player-control-hover: #ff7ba9;            /* Color hover de controles */
+    --player-progress-bg: #444;                 /* Fondo de barra de progreso */
+    --player-progress-color: #ff7ba9;           /* Color de barra de progreso */
+    --player-text-color: #f0f0f0;               /* Color de texto del reproductor */
+    --player-shadow: 0 4px 15px rgba(183, 111, 211, 0.3); /* Sombra del reproductor */
 }
 
 /* Reset básico para eliminar márgenes y rellenos predeterminados */
@@ -197,6 +215,382 @@ body {
 .special-video .video-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
+}
+
+/* ====== REPRODUCTOR DE MÚSICA ====== */
+.music-player-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.music-player {
+    background: var(--player-bg);
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: var(--player-shadow);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.music-player:hover {
+    box-shadow: 0 8px 25px rgba(142, 68, 173, 0.3);
+    transform: translateY(-3px);
+}
+
+/* Información de la canción */
+.song-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.song-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.song-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.song-image:hover img {
+    transform: scale(1.05);
+}
+
+.song-details {
+    flex: 1;
+}
+
+#song-title {
+    font-family: var(--font-decorative);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--player-text-color);
+    margin-bottom: 5px;
+}
+
+#song-artist {
+    font-size: 0.9rem;
+    color: var(--player-text-color);
+    opacity: 0.8;
+}
+
+/* Barra de progreso */
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#current-time, #duration {
+    font-size: 0.8rem;
+    color: var(--player-text-color);
+    min-width: 40px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--player-progress-bg);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress {
+    height: 100%;
+    background: var(--player-progress-color);
+    border-radius: 3px;
+    width: 0%;
+    position: relative;
+    transition: width 0.1s linear;
+}
+
+.progress::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background: var(--player-progress-color);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.progress-bar:hover .progress::after {
+    opacity: 1;
+}
+
+/* Controles de reproducción */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 5px 0;
+}
+
+.control-btn {
+    background: transparent;
+    border: none;
+    color: var(--player-control-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    color: var(--player-control-hover);
+    transform: scale(1.1);
+}
+
+.play-btn {
+    background: var(--player-control-color);
+    color: white;
+    font-size: 1rem;
+    width: 45px;
+    height: 45px;
+}
+
+.play-btn:hover {
+    background: var(--player-control-hover);
+    color: white;
+}
+
+.control-btn.active {
+    color: var(--player-control-hover);
+}
+
+/* Control de volumen */
+.volume-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+    margin-top: 5px;
+}
+
+
+.volume-slider {
+    flex: 1;
+    max-width: 150px;
+}
+
+.volume-bar {
+    height: 4px;
+    background: var(--player-progress-bg);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.volume {
+    height: 100%;
+    background: var(--player-control-color);
+    border-radius: 2px;
+    width: 100%;
+    position: relative;
+}
+
+.volume::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--player-control-color);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.volume-bar:hover .volume::after {
+    opacity: 1;
+}
+
+/* Lista de reproducción */
+.playlist-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.playlist {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--player-bg);
+    border-radius: 10px;
+    box-shadow: var(--player-shadow);
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    z-index: 10;
+}
+
+.playlist.show {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    background: var(--player-bg);
+    border-radius: 10px;
+    box-shadow: var(--player-shadow);
+    overflow-y: auto;
+    opacity: 1;
+    z-index: 9999;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    padding: 15px; /* opcional */
+}
+
+
+.playlist ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.playlist li {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: var(--player-text-color);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.playlist li::before {
+    content: '\f001';
+    font-family: 'Font Awesome 5 Free';
+    margin-right: 10px;
+    color: var(--player-control-color);
+    opacity: 0.7;
+}
+
+.playlist li:hover {
+    background: rgba(142, 68, 173, 0.1);
+}
+
+.playlist li.active {
+    background: rgba(142, 68, 173, 0.2);
+    font-weight: bold;
+}
+
+.playlist li.active::before {
+    content: '\f144';
+    opacity: 1;
+}
+
+/* Estilos responsivos para el reproductor */
+@media (max-width: 768px) {
+    .music-player {
+        padding: 12px;
+    }
+    
+    .song-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    #song-title {
+        font-size: 1.1rem;
+    }
+    
+    .controls {
+        gap: 10px;
+    }
+    
+    .control-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .play-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .playlist {
+        width: 250px;
+        right: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .music-player {
+        padding: 10px;
+    }
+    
+    .song-image {
+        width: 40px;
+        height: 40px;
+    }
+    
+    #song-title {
+        font-size: 1rem;
+    }
+    
+    #song-artist {
+        font-size: 0.8rem;
+    }
+    
+    .controls {
+        gap: 8px;
+    }
+    
+    .control-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .play-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .volume-container {
+        max-width: 100px;
+    }
+    
+    .playlist {
+        width: 200px;
+        right: -20px;
+    }
 }
 
 /* Estilos para el botón de amor */

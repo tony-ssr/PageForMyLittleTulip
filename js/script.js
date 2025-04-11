@@ -209,15 +209,15 @@ function createVideoElement(path) {
     video.controls = true;
     video.autoplay = false;
     video.playsInline = true;
-    video.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (video.paused) {
-            video.play();
-        } else {
-            video.pause();
+    video.addEventListener('touchend', function(e) {
+        if (e.target === video) {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
         }
-    }, { passive: false });
+    });
     const source = document.createElement('source');
     source.src = path;
     source.type = 'video/mp4';
@@ -666,55 +666,55 @@ function initMusicPlayer() {
         e.stopPropagation();
         togglePlay();
     });
-    playPauseBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        togglePlay();
-    }, { passive: false });
+    playPauseBtn.addEventListener('touchend', function(e) {
+        if (e.target === playPauseBtn) {
+            togglePlay();
+        }
+    });
 
     previousBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         playPrevious();
     });
-    previousBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        playPrevious();
-    }, { passive: false });
+    previousBtn.addEventListener('touchend', function(e) {
+        if (e.target === previousBtn) {
+            playPrevious();
+        }
+    });
 
     nextBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         playNext();
     });
-    nextBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        playNext();
-    }, { passive: false });
+    nextBtn.addEventListener('touchend', function(e) {
+        if (e.target === nextBtn) {
+            playNext();
+        }
+    });
 
     shuffleBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         toggleShuffle();
     });
-    shuffleBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleShuffle();
-    }, { passive: false });
+    shuffleBtn.addEventListener('touchend', function(e) {
+        if (e.target === shuffleBtn) {
+            toggleShuffle();
+        }
+    });
 
     repeatBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         toggleRepeat();
     });
-    repeatBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleRepeat();
-    }, { passive: false });
+    repeatBtn.addEventListener('touchend', function(e) {
+        if (e.target === repeatBtn) {
+            toggleRepeat();
+        }
+    });
 
     // Eventos de la barra de progreso con soporte táctil
     progressBar.addEventListener('click', function(e) {

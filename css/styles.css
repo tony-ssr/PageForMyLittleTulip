@@ -648,7 +648,7 @@ input:checked ~ .theme-icon.dark {
     width: 80%;
     padding: 30px;
     position: relative;
-    background-color: rgba(255, 245, 238, 0.7); /* Fondo tipo papel antiguo con opacidad */
+    background-color: rgba(255, 245, 238, 0.137); /* Fondo tipo papel antiguo con opacidad */
     margin: 20px;
     border-radius: 15px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
@@ -1407,7 +1407,7 @@ input:checked ~ .theme-icon.dark {
     margin: 2rem auto;
     padding: 2rem;
     max-width: 800px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(177, 177, 177, 0.295);
     border-radius: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
@@ -1918,7 +1918,7 @@ footer p:hover {
     line-height: 1.6;
     margin: 20px 0;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.205);
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;

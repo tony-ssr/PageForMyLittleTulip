@@ -121,26 +121,41 @@
             <section class="gallery" aria-label="Nuestros momentos especiales">
                 <h2>Nuestros momentos</h2>
                 <div class="moments">
-                    <div class="moment">
+                    <div class="moment" onclick="openModal('img/A&D/A&D - 1.jpg', 'Nuestras miradas')">
                         <div class="moment-content">
-                            <h3>El día que nos conocimos</h3>
-                            <p>Aquel momento en que el destino cruzó nuestros caminos y cambió mi vida para siempre.</p>
+                            <h3>Nuestras miradas</h3>
+                            <p>Cuando nuestros ojos se encontraron y supimos que algo especial comenzaba.</p>
                         </div>
                     </div>
-                    <div class="moment">
+                    <div class="moment" onclick="openModal('img/A&D/A&D - 2.jpg', 'Nuestro pequeño amigo')">
                         <div class="moment-content">
-                            <h3>Nuestras conversaciones</h3>
-                            <p>Cada palabra compartida ha sido un pétalo más en este hermoso tulipán que estamos cultivando juntos.</p>
+                            <h3>Nuestro pequeño amigo</h3>
+                            <p>El gatito que compartió uno de nuestros primeros momentos juntos.</p>
                         </div>
                     </div>
-                    <div class="moment">
+                    <div class="moment" onclick="openModal('img/A&D/A&D - 3.jpg', 'Manos unidas')">
                         <div class="moment-content">
-                            <h3>Sueños por cumplir</h3>
-                            <p>Como tulipanes que esperan florecer, así son los sueños que quiero cumplir a tu lado.</p>
+                            <h3>Manos unidas</h3>
+                            <p>El primer contacto que selló nuestro compromiso de estar juntos.</p>
+                        </div>
+                    </div>
+                    <div class="moment" onclick="openModal('vdo/A&D/Vdo - 1.mp4', 'Un recuerdo especial', true)">
+                        <div class="moment-content">
+                            <h3>Un recuerdo especial</h3>
+                            <p>Este video captura la esencia de nuestro amor en un momento único.</p>
                         </div>
                     </div>
                 </div>
             </section>
+            
+            <!-- Modal para mostrar imágenes y videos -->
+            <div id="mediaModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2 id="modalTitle"></h2>
+                    <div id="modalMediaContainer"></div>
+                </div>
+            </div>
             
             <!-- Sección de recuadros con fotos de Ana de niña -->
             <section class="childhood-photos" aria-label="Ana cuando era niña">

@@ -5,6 +5,70 @@
  * Descripción: Implementa efectos visuales y animaciones para mejorar la experiencia de usuario
  */
 
+// Variables globales para la modal
+let modal = null;
+let modalTitle = null;
+let modalMediaContainer = null;
+
+// Función para abrir la modal
+function openModal(mediaPath, title, isVideo = false) {
+    modal = document.getElementById('mediaModal');
+    modalTitle = document.getElementById('modalTitle');
+    modalMediaContainer = document.getElementById('modalMediaContainer');
+
+    // Limpiar el contenedor
+    modalMediaContainer.innerHTML = '';
+
+    // Crear el elemento multimedia apropiado
+    const mediaElement = isVideo ? createVideoElement(mediaPath) : createImageElement(mediaPath);
+    modalMediaContainer.appendChild(mediaElement);
+
+    // Establecer el título
+    modalTitle.textContent = title;
+
+    // Mostrar la modal con animación
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+
+    // Cerrar la modal al hacer clic fuera del contenido
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+}
+
+// Función para crear elemento de video
+function createVideoElement(path) {
+    const video = document.createElement('video');
+    video.controls = true;
+    video.autoplay = true;
+    const source = document.createElement('source');
+    source.src = path;
+    source.type = 'video/mp4';
+    video.appendChild(source);
+    return video;
+}
+
+// Función para crear elemento de imagen
+function createImageElement(path) {
+    const img = document.createElement('img');
+    img.src = path;
+    img.alt = 'Momento especial';
+    return img;
+}
+
+// Función para cerrar la modal
+function closeModal() {
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        modalMediaContainer.innerHTML = '';
+    }, 300);
+}
+
 /**
  * Inicializa todas las funcionalidades cuando el DOM está completamente cargado
  * Esto asegura que todos los elementos HTML estén disponibles antes de manipularlos
@@ -503,6 +567,71 @@ function initThemeSystem() {
     });
     
     console.log('Sistema de temas inicializado con animaciones mejoradas');
+}
+
+/**
+ * Abre una ventana modal para mostrar una imagen o video
+ * @param {string} mediaPath - Ruta del archivo multimedia (imagen o video)
+ * @param {string} title - Título que se mostrará en la modal
+ * @param {boolean} isVideo - Indica si el contenido es un video
+ */
+function openModal(mediaPath, title, isVideo = false) {
+    const modal = document.getElementById('mediaModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const mediaContainer = document.getElementById('modalMediaContainer');
+    
+    // Limpia el contenedor de contenido anterior
+    mediaContainer.innerHTML = '';
+    
+    // Establece el título
+    modalTitle.textContent = title;
+    
+    // Crea y configura el elemento multimedia apropiado
+    if (isVideo) {
+        const video = document.createElement('video');
+        video.src = mediaPath;
+        video.controls = true;
+        video.autoplay = false;
+        video.className = 'modal-media';
+        mediaContainer.appendChild(video);
+    } else {
+        const img = document.createElement('img');
+        img.src = mediaPath;
+        img.alt = title;
+        img.className = 'modal-media';
+        mediaContainer.appendChild(img);
+    }
+    
+    // Muestra la modal con una animación suave
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+    
+    // Configura el cierre al hacer clic fuera de la modal
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+}
+
+/**
+ * Cierra la ventana modal
+ */
+function closeModal() {
+    const modal = document.getElementById('mediaModal');
+    const mediaContainer = document.getElementById('modalMediaContainer');
+    
+    // Elimina la clase show para iniciar la animación de salida
+    modal.classList.remove('show');
+    
+    // Espera a que termine la animación antes de ocultar completamente
+    setTimeout(() => {
+        modal.style.display = 'none';
+        // Limpia el contenedor
+        mediaContainer.innerHTML = '';
+    }, 300);
 }
 
 /**

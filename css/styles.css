@@ -26,13 +26,14 @@
     --font-main: 'Montserrat', sans-serif;         /* Fuente principal */
     
     /* Variables para el reproductor de música */
-    --player-bg: rgba(248, 241, 255, 0.9);         /* Fondo del reproductor */
-    --player-control-color: #8e44ad;               /* Color de controles */
-    --player-control-hover: #e75480;               /* Color hover de controles */
-    --player-progress-bg: #e0e0e0;                 /* Fondo de barra de progreso */
-    --player-progress-color: #e75480;              /* Color de barra de progreso */
-    --player-text-color: #333;                     /* Color de texto del reproductor */
-    --player-shadow: 0 4px 15px rgba(142, 68, 173, 0.2); /* Sombra del reproductor */
+    --player-bg: rgba(255, 255, 255, 0.9);         /* Fondo del reproductor */
+    --player-text: #333;                           /* Texto del reproductor */
+    --player-icon: #666;                           /* Color de iconos */
+    --player-icon-hover: #e75480;                  /* Color de iconos al hover */
+    --player-progress: #e0e0e0;                    /* Barra de progreso base */
+    --player-progress-fill: #e75480;               /* Barra de progreso relleno */
+    --player-handle: #e75480;                      /* Control deslizante */
+    --player-border: rgba(0, 0, 0, 0.1);           /* Bordes del reproductor */
 }
 
 /* Variables para modo oscuro */
@@ -49,14 +50,15 @@
     --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.3);  /* Sombra suave más oscura */
     --shadow-hover: 0 12px 25px rgba(183, 111, 211, 0.3); /* Sombra para hover */
     
-    /* Variables para el reproductor de música en modo oscuro */
-    --player-bg: rgba(45, 45, 45, 0.9);         /* Fondo del reproductor */
-    --player-control-color: #b76fd3;            /* Color de controles */
-    --player-control-hover: #ff7ba9;            /* Color hover de controles */
-    --player-progress-bg: #444;                 /* Fondo de barra de progreso */
-    --player-progress-color: #ff7ba9;           /* Color de barra de progreso */
-    --player-text-color: #f0f0f0;               /* Color de texto del reproductor */
-    --player-shadow: 0 4px 15px rgba(183, 111, 211, 0.3); /* Sombra del reproductor */
+    /* Variables del reproductor para modo oscuro */
+    --player-bg: rgba(45, 45, 45, 0.9);            /* Fondo del reproductor */
+    --player-text: #f0f0f0;                        /* Texto del reproductor */
+    --player-icon: #b0b0b0;                        /* Color de iconos */
+    --player-icon-hover: #ff7ba9;                  /* Color de iconos al hover */
+    --player-progress: #4a4a4a;                    /* Barra de progreso base */
+    --player-progress-fill: #ff7ba9;               /* Barra de progreso relleno */
+    --player-handle: #ff7ba9;                      /* Control deslizante */
+    --player-border: rgba(255, 255, 255, 0.1);     /* Bordes del reproductor */
 }
 
 /* Reset básico para eliminar márgenes y rellenos predeterminados */
@@ -83,6 +85,296 @@ body {
     padding: 20px;
     position: relative;
     z-index: 1; /* Asegura que el contenido esté por encima del fondo animado */
+}
+
+/* Estilos para el reproductor de música */
+.music-player {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: var(--player-bg);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: var(--shadow-soft);
+    color: var(--player-text);
+    transition: all 0.3s ease;
+}
+
+.player-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Información de la canción */
+.song-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.song-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.song-details {
+    overflow: hidden;
+}
+
+.song-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-artist {
+    font-size: 0.9em;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Controles del reproductor */
+.player-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.control-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.control-btn img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) saturate(100%) opacity(0.7);
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover img {
+    filter: none;
+    transform: scale(1.1);
+}
+
+.play-pause img {
+    width: 32px;
+    height: 32px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Barra de progreso */
+.progress-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--player-progress);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress {
+    height: 100%;
+    background: var(--player-progress-fill);
+    border-radius: 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.progress-handle {
+    width: 12px;
+    height: 12px;
+    background: var(--player-handle);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.progress-handle:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Control de volumen y lista de reproducción */
+.volume-playlist {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.volume-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    background: var(--player-progress);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+.volume-progress {
+    height: 100%;
+    background: var(--player-progress-fill);
+    border-radius: 2px;
+}
+
+.volume-handle {
+    width: 12px;
+    height: 12px;
+    background: var(--player-handle);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.volume-handle:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Lista de reproducción */
+.playlist-container {
+    margin-top: 20px;
+    background: var(--player-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.playlist-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--player-border);
+}
+
+.playlist-songs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.playlist-songs li {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.playlist-songs li:hover {
+    background-color: var(--player-border);
+}
+
+.playlist-songs li.active {
+    background-color: var(--player-progress);
+    color: var(--player-handle);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .player-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .volume-playlist {
+        justify-content: center;
+    }
+
+    .song-info {
+        justify-content: center;
+    }
+
+    .control-buttons {
+        gap: 15px;
+    }
+
+    .control-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .play-pause img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .volume-slider {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .music-player {
+        padding: 15px;
+    }
+
+    .control-buttons {
+        gap: 10px;
+    }
+
+    .volume-playlist {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .volume-control {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .volume-slider {
+        width: 100%;
+        max-width: 200px;
+    }
 }
 
 /* ====== FONDO DE TULIPANES ANIMADOS ====== */
@@ -216,216 +508,6 @@ body {
     transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
 }
-
-/* ===== GENERAL STYLES ===== */
-body {
-    background: #1a1a1d;
-    font-family: 'Segoe UI', sans-serif;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-}
-
-/* ===== MUSIC PLAYER CONTAINER ===== */
-.music-player-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 2rem;
-    background: linear-gradient(145deg, #1e1e21, #2c2c31);
-}
-
-/* ===== MUSIC PLAYER ===== */
-.music-player {
-    background: #2a2a2e;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    width: 100%;
-    max-width: 420px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-/* ===== SONG INFO ===== */
-.song-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.song-image img {
-    width: 80px;
-    height: 80px;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-}
-
-.song-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#song-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-#song-artist {
-    font-size: 0.9rem;
-    color: #aaa;
-}
-
-/* ===== PROGRESS BAR ===== */
-.progress-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-}
-
-.progress-bar {
-    flex: 1;
-    height: 6px;
-    background: #444;
-    border-radius: 50px;
-    position: relative;
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-    background: #ff4f87;
-    width: 0%;
-    transition: width 0.3s ease-in-out;
-}
-
-/* ===== CONTROLS ===== */
-.controls {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 1rem;
-}
-
-.control-btn {
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.control-btn:hover {
-    transform: scale(1.15);
-}
-
-.player-icon {
-    width: 26px;
-    height: 26px;
-    filter: brightness(1.3);
-}
-
-/* ===== VOLUME ===== */
-.volume-container {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.volume-slider {
-    flex: 1;
-}
-
-.volume-bar {
-    height: 6px;
-    background: #444;
-    border-radius: 50px;
-    overflow: hidden;
-    position: relative;
-}
-
-.volume {
-    height: 100%;
-    background: #4fc3f7;
-    width: 100%;
-}
-
-/* ===== PLAYLIST ===== */
-.playlist-container {
-    margin-top: 1rem;
-}
-
-#playlist-toggle {
-    float: right;
-    margin-bottom: 0.5rem;
-}
-
-.playlist {
-    background: #1f1f23;
-    border-radius: 12px;
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 0.5rem;
-    display: none;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.playlist ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.playlist li {
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 4px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.playlist li:hover {
-    background: #333;
-}
-
-.playlist li.active {
-    background: #4fc3f7;
-    color: #000;
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ===== ROTATING COVER WHEN PLAYING ===== */
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-#song-cover.playing {
-    animation: rotate 20s linear infinite;
-}
-
 
 
 /* Estilos para el botón de amor */

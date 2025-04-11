@@ -5,10 +5,173 @@
  * Descripción: Implementa efectos visuales y animaciones para mejorar la experiencia de usuario
  */
 
+/**
+ * Inicializa el sistema de temas (claro/oscuro) con animaciones mejoradas
+ * Verifica la preferencia guardada del usuario, aplica el tema correspondiente
+ * y configura el evento para cambiar entre temas con transiciones visuales
+ */
+function initThemeSystem() {
+    // Selecciona el toggle switch y su contenedor
+    const themeSwitch = document.getElementById('theme-switch');
+    const themeContainer = document.querySelector('.theme-toggle-container');
+    
+    // Si no existe el switch, salimos de la función
+    if (!themeSwitch) {
+        console.warn('No se encontró el switch de tema');
+        return;
+    }
+    
+    // Verifica si hay una preferencia guardada en localStorage
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Aplica el tema guardado o usa la preferencia del sistema
+    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+        applyTheme('dark');
+        themeSwitch.checked = true;
+    } else {
+        applyTheme('light');
+        themeSwitch.checked = false;
+    }
+    
+    // Función para aplicar el tema con animación
+    function applyTheme(theme, animate = false) {
+        // Aplica el atributo de tema al documento
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Si se solicita animación, añade efectos visuales
+        if (animate) {
+            // Añade clase para la animación de transición
+            document.body.classList.add('theme-transition');
+            
+            // Efecto de florecimiento para el botón
+            const slider = document.querySelector('.slider');
+            slider.classList.add('theme-changing');
+            
+            // Efecto de rotación para el contenedor
+            themeContainer.style.transform = theme === 'dark' ? 
+                'scale(1.2) rotate(10deg)' : 'scale(1.2) rotate(-10deg)';
+            
+            // Elimina las clases de animación después de completarse
+            setTimeout(() => {
+                document.body.classList.remove('theme-transition');
+                slider.classList.remove('theme-changing');
+                themeContainer.style.transform = '';
+            }, 800);
+            
+            // Añade un efecto de brillo temporal al fondo
+            const tulipBackground = document.getElementById('tulip-background');
+            if (tulipBackground) {
+                const glowEffect = document.createElement('div');
+                glowEffect.className = 'theme-change-glow';
+                glowEffect.style.backgroundColor = theme === 'dark' ? 
+                    'rgba(142, 68, 173, 0.2)' : 'rgba(231, 84, 128, 0.2)';
+                tulipBackground.appendChild(glowEffect);
+                
+                // Elimina el efecto después de la animación
+                setTimeout(() => {
+                    tulipBackground.removeChild(glowEffect);
+                }, 1000);
+            }
+        }
+    }
+    
+    // Añade estilos CSS para las animaciones de cambio de tema
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+        .theme-transition * {
+            transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease !important;
+        }
+        
+        .slider.theme-changing:after {
+            opacity: 0.8 !important;
+            transform: translateX(-50%) scale(1.5) !important;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+        
+        .theme-change-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            animation: themeGlow 1s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes themeGlow {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    `;
+    document.head.appendChild(styleElement);
+    
+    // Configura el evento para cambiar el tema con animaciones
+    themeSwitch.addEventListener('change', function() {
+        if (this.checked) {
+            // Cambia a tema oscuro con animación
+            applyTheme('dark', true);
+            localStorage.setItem('theme', 'dark');
+        } else {
+            // Cambia a tema claro con animación
+            applyTheme('light', true);
+            localStorage.setItem('theme', 'light');
+        }
+    });
+    
+    // También escucha cambios en la preferencia del sistema
+    prefersDarkScheme.addEventListener('change', (e) => {
+        // Solo cambia automáticamente si el usuario no ha establecido una preferencia
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                applyTheme('dark', true);
+                themeSwitch.checked = true;
+            } else {
+                applyTheme('light', true);
+                themeSwitch.checked = false;
+            }
+        }
+    });
+    
+    console.log('Sistema de temas inicializado con animaciones mejoradas');
+}
+
+
 // Variables globales para la modal
 let modal = null;
 let modalTitle = null;
 let modalMediaContainer = null;
+
+// Variables globales para el reproductor de música
+let audioPlayer = new Audio();
+let currentSongIndex = 0;
+let isPlaying = false;
+let isShuffled = false;
+let repeatMode = 'none'; // none, all, one
+let playlist = [
+    {
+        title: 'Amor',
+        artist: 'Alta Elegancia x DannyLux',
+        file: 'sng/Rpr/Amor - Alta Elegancia x DannyLux.mp3',
+        icon: 'sng/Icn/Amor - Alta Elegancia x DannyLux.png'
+    },
+    {
+        title: 'Diciembre',
+        artist: 'Eslabon Armado',
+        file: 'sng/Rpr/Diciembre - Eslabon Armado.mp3',
+        icon: 'sng/Icn/Diciembre - Eslabon Armado.png'
+    },
+    {
+        title: 'Ojitos de Miel',
+        artist: 'T3R Elemento',
+        file: 'sng/Rpr/Ojitos de Miel - T3R Elemento.mp3',
+        icon: 'sng/Icn/Ojitos de Miel - T3R Elemento.png'
+    }
+];
+let originalPlaylist = [...playlist];
+
 
 // Función para abrir la modal
 function openModal(mediaPath, title, isVideo = false) {
@@ -112,6 +275,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializa el sistema de temas (claro/oscuro)
     initThemeSystem();
+    
+    // Inicializa el reproductor de música
+    initMusicPlayer();
     
     // Inicializa el carrusel tipo libro
     initBookCarousel();
@@ -455,136 +621,230 @@ function initBackgroundParallax() {
 }
 
 /**
- * Inicializa el sistema de temas (claro/oscuro) con animaciones mejoradas
- * Verifica la preferencia guardada del usuario, aplica el tema correspondiente
- * y configura el evento para cambiar entre temas con transiciones visuales
+ * Inicializa el reproductor de música con todas sus funcionalidades
+ * Configura los eventos para los controles, la barra de progreso y el volumen
  */
-function initThemeSystem() {
-    // Selecciona el toggle switch y su contenedor
-    const themeSwitch = document.getElementById('theme-switch');
-    const themeContainer = document.querySelector('.theme-toggle-container');
-    
-    // Si no existe el switch, salimos de la función
-    if (!themeSwitch) {
-        console.warn('No se encontró el switch de tema');
-        return;
+function initMusicPlayer() {
+    // Elementos del DOM
+    const playPauseBtn = document.querySelector('.play-pause');
+    const previousBtn = document.querySelector('.previous');
+    const nextBtn = document.querySelector('.next');
+    const shuffleBtn = document.querySelector('.shuffle');
+    const repeatBtn = document.querySelector('.repeat');
+    const progressBar = document.querySelector('.progress-bar');
+    const progress = document.querySelector('.progress');
+    const progressHandle = document.querySelector('.progress-handle');
+    const currentTimeSpan = document.querySelector('.current-time');
+    const totalTimeSpan = document.querySelector('.total-time');
+    const volumeSlider = document.querySelector('.volume-slider');
+    const volumeProgress = document.querySelector('.volume-progress');
+    const volumeHandle = document.querySelector('.volume-handle');
+    const playlistToggle = document.querySelector('.playlist-toggle');
+    const playlistContainer = document.querySelector('.playlist-container');
+    const playlistSongs = document.querySelector('.playlist-songs');
+    const songIcon = document.querySelector('.song-icon');
+    const songTitle = document.querySelector('.song-title');
+    const songArtist = document.querySelector('.song-artist');
+
+    // Inicializar el reproductor
+    loadSong(currentSongIndex);
+    updatePlaylistUI();
+
+    // Eventos de reproducción
+    playPauseBtn.addEventListener('click', togglePlay);
+    previousBtn.addEventListener('click', playPrevious);
+    nextBtn.addEventListener('click', playNext);
+    shuffleBtn.addEventListener('click', toggleShuffle);
+    repeatBtn.addEventListener('click', toggleRepeat);
+
+    // Eventos de la barra de progreso
+    progressBar.addEventListener('click', seek);
+    progressHandle.addEventListener('mousedown', startSeekDrag);
+
+    // Eventos del control de volumen
+    volumeSlider.addEventListener('click', setVolume);
+    volumeHandle.addEventListener('mousedown', startVolumeDrag);
+
+    // Eventos de la lista de reproducción
+    playlistToggle.addEventListener('click', () => {
+        playlistContainer.classList.toggle('hidden');
+    });
+
+    // Eventos del reproductor de audio
+    audioPlayer.addEventListener('timeupdate', updateProgress);
+    audioPlayer.addEventListener('ended', handleSongEnd);
+    audioPlayer.addEventListener('loadedmetadata', () => {
+        totalTimeSpan.textContent = formatTime(audioPlayer.duration);
+    });
+
+    // Funciones del reproductor
+    function loadSong(index) {
+        const song = playlist[index];
+        audioPlayer.src = song.file;
+        songIcon.src = song.icon;
+        songTitle.textContent = song.title;
+        songArtist.textContent = song.artist;
+        updatePlaylistUI();
     }
-    
-    // Verifica si hay una preferencia guardada en localStorage
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // Aplica el tema guardado o usa la preferencia del sistema
-    if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
-        applyTheme('dark');
-        themeSwitch.checked = true;
-    } else {
-        applyTheme('light');
-        themeSwitch.checked = false;
-    }
-    
-    // Función para aplicar el tema con animación
-    function applyTheme(theme, animate = false) {
-        // Aplica el atributo de tema al documento
-        document.documentElement.setAttribute('data-theme', theme);
-        
-        // Si se solicita animación, añade efectos visuales
-        if (animate) {
-            // Añade clase para la animación de transición
-            document.body.classList.add('theme-transition');
-            
-            // Efecto de florecimiento para el botón
-            const slider = document.querySelector('.slider');
-            slider.classList.add('theme-changing');
-            
-            // Efecto de rotación para el contenedor
-            themeContainer.style.transform = theme === 'dark' ? 
-                'scale(1.2) rotate(10deg)' : 'scale(1.2) rotate(-10deg)';
-            
-            // Elimina las clases de animación después de completarse
-            setTimeout(() => {
-                document.body.classList.remove('theme-transition');
-                slider.classList.remove('theme-changing');
-                themeContainer.style.transform = '';
-            }, 800);
-            
-            // Añade un efecto de brillo temporal al fondo
-            const tulipBackground = document.getElementById('tulip-background');
-            if (tulipBackground) {
-                const glowEffect = document.createElement('div');
-                glowEffect.className = 'theme-change-glow';
-                glowEffect.style.backgroundColor = theme === 'dark' ? 
-                    'rgba(142, 68, 173, 0.2)' : 'rgba(231, 84, 128, 0.2)';
-                tulipBackground.appendChild(glowEffect);
-                
-                // Elimina el efecto después de la animación
-                setTimeout(() => {
-                    tulipBackground.removeChild(glowEffect);
-                }, 1000);
-            }
-        }
-    }
-    
-    // Añade estilos CSS para las animaciones de cambio de tema
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .theme-transition * {
-            transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease !important;
-        }
-        
-        .slider.theme-changing:after {
-            opacity: 0.8 !important;
-            transform: translateX(-50%) scale(1.5) !important;
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-        }
-        
-        .theme-change-glow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            animation: themeGlow 1s ease-out forwards;
-            pointer-events: none;
-        }
-        
-        @keyframes themeGlow {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-    `;
-    document.head.appendChild(styleElement);
-    
-    // Configura el evento para cambiar el tema con animaciones
-    themeSwitch.addEventListener('change', function() {
-        if (this.checked) {
-            // Cambia a tema oscuro con animación
-            applyTheme('dark', true);
-            localStorage.setItem('theme', 'dark');
+
+    function togglePlay() {
+        if (isPlaying) {
+            pauseSong();
         } else {
-            // Cambia a tema claro con animación
-            applyTheme('light', true);
-            localStorage.setItem('theme', 'light');
+            playSong();
         }
-    });
-    
-    // También escucha cambios en la preferencia del sistema
-    prefersDarkScheme.addEventListener('change', (e) => {
-        // Solo cambia automáticamente si el usuario no ha establecido una preferencia
-        if (!localStorage.getItem('theme')) {
-            if (e.matches) {
-                applyTheme('dark', true);
-                themeSwitch.checked = true;
-            } else {
-                applyTheme('light', true);
-                themeSwitch.checked = false;
-            }
+    }
+
+    function playSong() {
+        isPlaying = true;
+        audioPlayer.play();
+        document.querySelector('.play-icon').classList.add('hidden');
+        document.querySelector('.pause-icon').classList.remove('hidden');
+    }
+
+    function pauseSong() {
+        isPlaying = false;
+        audioPlayer.pause();
+        document.querySelector('.play-icon').classList.remove('hidden');
+        document.querySelector('.pause-icon').classList.add('hidden');
+    }
+
+    function playPrevious() {
+        currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+        loadSong(currentSongIndex);
+        if (isPlaying) playSong();
+    }
+
+    function playNext() {
+        currentSongIndex = (currentSongIndex + 1) % playlist.length;
+        loadSong(currentSongIndex);
+        if (isPlaying) playSong();
+    }
+
+    function toggleShuffle() {
+        isShuffled = !isShuffled;
+        shuffleBtn.classList.toggle('active');
+        if (isShuffled) {
+            playlist = [...playlist].sort(() => Math.random() - 0.5);
+        } else {
+            playlist = [...originalPlaylist];
         }
-    });
-    
-    console.log('Sistema de temas inicializado con animaciones mejoradas');
+        updatePlaylistUI();
+    }
+
+    function toggleRepeat() {
+        const modes = ['none', 'all', 'one'];
+        const currentIndex = modes.indexOf(repeatMode);
+        repeatMode = modes[(currentIndex + 1) % modes.length];
+        repeatBtn.classList.toggle('active', repeatMode !== 'none');
+    }
+
+    function handleSongEnd() {
+        if (repeatMode === 'one') {
+            audioPlayer.currentTime = 0;
+            playSong();
+        } else if (repeatMode === 'all' || currentSongIndex < playlist.length - 1) {
+            playNext();
+        } else {
+            currentSongIndex = 0;
+            loadSong(currentSongIndex);
+            pauseSong();
+        }
+    }
+
+    function updateProgress() {
+        const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progress.style.width = `${percent}%`;
+        progressHandle.style.left = `${percent}%`;
+        currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+    }
+
+    function seek(e) {
+        const rect = progressBar.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        audioPlayer.currentTime = percent * audioPlayer.duration;
+    }
+
+    function startSeekDrag(e) {
+        e.preventDefault();
+        document.addEventListener('mousemove', handleSeekDrag);
+        document.addEventListener('mouseup', stopSeekDrag);
+    }
+
+    function handleSeekDrag(e) {
+        const rect = progressBar.getBoundingClientRect();
+        let percent = (e.clientX - rect.left) / rect.width;
+        percent = Math.max(0, Math.min(1, percent));
+        progress.style.width = `${percent * 100}%`;
+        progressHandle.style.left = `${percent * 100}%`;
+        audioPlayer.currentTime = percent * audioPlayer.duration;
+    }
+
+    function stopSeekDrag() {
+        document.removeEventListener('mousemove', handleSeekDrag);
+        document.removeEventListener('mouseup', stopSeekDrag);
+    }
+
+    function setVolume(e) {
+        const rect = volumeSlider.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        updateVolume(percent);
+    }
+
+    function startVolumeDrag(e) {
+        e.preventDefault();
+        document.addEventListener('mousemove', handleVolumeDrag);
+        document.addEventListener('mouseup', stopVolumeDrag);
+    }
+
+    function handleVolumeDrag(e) {
+        const rect = volumeSlider.getBoundingClientRect();
+        let percent = (e.clientX - rect.left) / rect.width;
+        percent = Math.max(0, Math.min(1, percent));
+        updateVolume(percent);
+    }
+
+    function stopVolumeDrag() {
+        document.removeEventListener('mousemove', handleVolumeDrag);
+        document.removeEventListener('mouseup', stopVolumeDrag);
+    }
+
+    function updateVolume(percent) {
+        percent = Math.max(0, Math.min(1, percent));
+        audioPlayer.volume = percent;
+        volumeProgress.style.width = `${percent * 100}%`;
+        volumeHandle.style.left = `${percent * 100}%`;
+    }
+
+    function updatePlaylistUI() {
+        playlistSongs.innerHTML = '';
+        playlist.forEach((song, index) => {
+            const li = document.createElement('li');
+            li.className = index === currentSongIndex ? 'active' : '';
+            li.innerHTML = `
+                <img src="${song.icon}" alt="${song.title}" width="40" height="40">
+                <div>
+                    <div class="song-title">${song.title}</div>
+                    <div class="song-artist">${song.artist}</div>
+                </div>
+            `;
+            li.addEventListener('click', () => {
+                currentSongIndex = index;
+                loadSong(currentSongIndex);
+                playSong();
+            });
+            playlistSongs.appendChild(li);
+        });
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    // Establecer volumen inicial
+    updateVolume(0.7);
 }
 
 /**
@@ -793,304 +1053,3 @@ function initBookCarousel() {
     
     console.log('Carrusel tipo libro inicializado con', carouselData.length, 'imágenes');
 }
-
-/**
- * Script para el reproductor de música
- * Implementa funcionalidades de reproducción, aleatorio, bucle, selección de canciones,
- * control de volumen y barra de progreso interactiva
- */
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Elementos del reproductor
-    const audio = new Audio();
-    const playBtn = document.getElementById('play');
-    const prevBtn = document.getElementById('prev');
-    const nextBtn = document.getElementById('next');
-    const shuffleBtn = document.getElementById('shuffle');
-    const repeatBtn = document.getElementById('repeat');
-    const muteBtn = document.getElementById('mute');
-    const playlistToggle = document.getElementById('playlist-toggle');
-    const playlist = document.getElementById('playlist');
-    const songTitle = document.getElementById('song-title');
-    const songArtist = document.getElementById('song-artist');
-    const songCover = document.getElementById('song-cover');
-    const currentTimeEl = document.getElementById('current-time');
-    const durationEl = document.getElementById('duration');
-    const progressBar = document.querySelector('.progress-bar');
-    const progress = document.getElementById('progress');
-    const volumeBar = document.querySelector('.volume-bar');
-    const volume = document.getElementById('volume');
-    const playlistItems = document.querySelectorAll('.playlist li');
-    
-    // Estado del reproductor
-    let isPlaying = false;
-    let isShuffle = false;
-    let isRepeat = false;
-    let isMuted = false;
-    let currentVolume = 1;
-    let currentSongIndex = 0;
-    let playlistVisible = false;
-    
-    // Lista de canciones
-    const songs = Array.from(playlistItems).map(item => ({
-        src: item.getAttribute('data-src'),
-        cover: item.getAttribute('data-cover'),
-        title: item.getAttribute('data-title'),
-        artist: item.getAttribute('data-artist')
-    }));
-    
-    // Inicializar reproductor
-    function initPlayer() {
-        // Cargar primera canción
-        loadSong(currentSongIndex);
-        
-        // Establecer volumen inicial
-        audio.volume = currentVolume;
-        updateVolumeUI();
-        
-        // Eventos de audio
-        audio.addEventListener('timeupdate', updateProgress);
-        audio.addEventListener('ended', handleSongEnd);
-        audio.addEventListener('canplay', updateDuration);
-        
-        // Eventos de controles
-        playBtn.addEventListener('click', togglePlay);
-        prevBtn.addEventListener('click', prevSong);
-        nextBtn.addEventListener('click', nextSong);
-        shuffleBtn.addEventListener('click', toggleShuffle);
-        repeatBtn.addEventListener('click', toggleRepeat);
-        muteBtn.addEventListener('click', toggleMute);
-        playlistToggle.addEventListener('click', togglePlaylist);
-        
-        // Eventos de barra de progreso
-        progressBar.addEventListener('click', setProgress);
-        
-        // Eventos de volumen
-        volumeBar.addEventListener('click', setVolume);
-        
-        // Eventos de lista de reproducción
-        playlistItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                currentSongIndex = index;
-                loadSong(currentSongIndex);
-                togglePlay();
-                togglePlaylist();
-            });
-        });
-    }
-    
-    // Cargar canción
-    function loadSong(index) {
-        const song = songs[index];
-        audio.src = song.src;
-        songTitle.textContent = song.title;
-        songArtist.textContent = song.artist;
-        songCover.src = song.cover;
-        
-        // Actualizar clase activa en la lista
-        playlistItems.forEach(item => item.classList.remove('active'));
-        playlistItems[index].classList.add('active');
-    }
-    
-    // Reproducir/Pausar
-    function togglePlay() {
-        if (isPlaying) {
-            pauseSong();
-        } else {
-            playSong();
-        }
-    }
-    
-    // Reproducir canción
-    function playSong() {
-        isPlaying = true;
-        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        playBtn.setAttribute('title', 'Pausar');
-        audio.play();
-        
-        // Añadir animación al cover
-        songCover.style.animation = 'rotate 20s linear infinite';
-    }
-    
-    // Pausar canción
-    function pauseSong() {
-        isPlaying = false;
-        playBtn.innerHTML = '<i class="fas fa-play"></i>';
-        playBtn.setAttribute('title', 'Reproducir');
-        audio.pause();
-        
-        // Pausar animación del cover
-        songCover.style.animationPlayState = 'paused';
-    }
-    
-    // Canción anterior
-    function prevSong() {
-        if (isShuffle) {
-            randomSong();
-        } else {
-            currentSongIndex--;
-            if (currentSongIndex < 0) {
-                currentSongIndex = songs.length - 1;
-            }
-            loadSong(currentSongIndex);
-        }
-        
-        if (isPlaying) {
-            playSong();
-        }
-    }
-    
-    // Siguiente canción
-    function nextSong() {
-        if (isShuffle) {
-            randomSong();
-        } else {
-            currentSongIndex++;
-            if (currentSongIndex > songs.length - 1) {
-                currentSongIndex = 0;
-            }
-            loadSong(currentSongIndex);
-        }
-        
-        if (isPlaying) {
-            playSong();
-        }
-    }
-    
-    // Canción aleatoria
-    function randomSong() {
-        let newIndex;
-        do {
-            newIndex = Math.floor(Math.random() * songs.length);
-        } while (newIndex === currentSongIndex && songs.length > 1);
-        
-        currentSongIndex = newIndex;
-        loadSong(currentSongIndex);
-    }
-    
-    // Activar/Desactivar reproducción aleatoria
-    function toggleShuffle() {
-        isShuffle = !isShuffle;
-        shuffleBtn.classList.toggle('active', isShuffle);
-        shuffleBtn.setAttribute('title', isShuffle ? 'Desactivar aleatorio' : 'Reproducción aleatoria');
-    }
-    
-    // Activar/Desactivar repetición
-    function toggleRepeat() {
-        isRepeat = !isRepeat;
-        repeatBtn.classList.toggle('active', isRepeat);
-        repeatBtn.setAttribute('title', isRepeat ? 'Desactivar repetición' : 'Repetir');
-    }
-    
-    // Manejar fin de canción
-    function handleSongEnd() {
-        if (isRepeat) {
-            audio.currentTime = 0;
-            playSong();
-        } else {
-            nextSong();
-        }
-    }
-    
-    // Actualizar barra de progreso
-    function updateProgress() {
-        const { currentTime, duration } = audio;
-        const progressPercent = (currentTime / duration) * 100;
-        progress.style.width = `${progressPercent}%`;
-        
-        // Actualizar tiempo actual
-        currentTimeEl.textContent = formatTime(currentTime);
-    }
-    
-    // Actualizar duración
-    function updateDuration() {
-        durationEl.textContent = formatTime(audio.duration);
-    }
-    
-    // Establecer progreso al hacer clic
-    function setProgress(e) {
-        const width = this.clientWidth;
-        const clickX = e.offsetX;
-        const duration = audio.duration;
-        audio.currentTime = (clickX / width) * duration;
-    }
-    
-    // Activar/Desactivar silencio
-    function toggleMute() {
-        isMuted = !isMuted;
-        audio.muted = isMuted;
-        
-        if (isMuted) {
-            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            muteBtn.setAttribute('title', 'Activar sonido');
-            volume.style.width = '0%';
-        } else {
-            updateVolumeIcon();
-            volume.style.width = `${currentVolume * 100}%`;
-        }
-    }
-    
-    // Establecer volumen
-    function setVolume(e) {
-        const width = this.clientWidth;
-        const clickX = e.offsetX;
-        currentVolume = clickX / width;
-        
-        // Limitar volumen entre 0 y 1
-        currentVolume = Math.max(0, Math.min(1, currentVolume));
-        
-        audio.volume = currentVolume;
-        updateVolumeUI();
-        
-        // Si estaba en silencio, desactivar
-        if (isMuted && currentVolume > 0) {
-            toggleMute();
-        }
-    }
-    
-    // Actualizar UI de volumen
-    function updateVolumeUI() {
-        volume.style.width = `${currentVolume * 100}%`;
-        updateVolumeIcon();
-    }
-    
-    // Actualizar icono de volumen según nivel
-    function updateVolumeIcon() {
-        if (currentVolume >= 0.5) {
-            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-        } else if (currentVolume > 0) {
-            muteBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
-        } else {
-            muteBtn.innerHTML = '<i class="fas fa-volume-off"></i>';
-        }
-        muteBtn.setAttribute('title', 'Silenciar');
-    }
-    
-    // Mostrar/Ocultar lista de reproducción
-    function togglePlaylist() {
-        playlistVisible = !playlistVisible;
-        playlist.classList.toggle('show', playlistVisible);
-    }
-    
-    // Formatear tiempo (segundos a MM:SS)
-    function formatTime(seconds) {
-        if (isNaN(seconds)) return '0:00';
-        
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    }
-    
-    // Iniciar reproductor
-    initPlayer();
-    
-    // Añadir animación CSS para la rotación del cover
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-    `;
-    document.head.appendChild(style);
-});

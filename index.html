@@ -44,75 +44,73 @@
             <h1 class="title">Para mi tulipán</h1>
             <div class="subtitle">Ana Rosero</div>
             
-            <!-- Reproductor de música -->
-            <div class="music-player-container">
-                <div class="music-player">
-                    <!-- Información de la canción -->
+            <!-- Reproductor de música estilo Spotify -->
+            <div class="music-player">
+                <div class="player-container">
+                    <!-- Información de la canción actual -->
                     <div class="song-info">
-                        <div class="song-image">
-                            <img id="song-cover" src="sng/Icn/Amor - Alta Elegancia x DannyLux.png" alt="Portada de canción">
-                        </div>
+                        <img class="song-icon" src="" alt="Icono de la canción">
                         <div class="song-details">
-                            <div id="song-title">Amor</div>
-                            <div id="song-artist">Alta Elegancia x DannyLux</div>
+                            <div class="song-title"></div>
+                            <div class="song-artist"></div>
                         </div>
                     </div>
 
-                    <!-- Barra de progreso -->
-                    <div class="progress-container">
-                        <span id="current-time">0:00</span>
-                        <div class="progress-bar">
-                            <div class="progress" id="progress"></div>
+                    <!-- Controles principales y barra de progreso -->
+                    <div class="player-controls">
+                        <div class="control-buttons">
+                            <button class="control-btn shuffle" title="Reproducción aleatoria">
+                                <img src="img/icons/png/random.png" alt="Aleatorio">
+                            </button>
+                            <button class="control-btn previous" title="Anterior">
+                                <img src="img/icons/png/previous.png" alt="Anterior">
+                            </button>
+                            <button class="control-btn play-pause" title="Reproducir/Pausar">
+                                <img src="img/icons/png/play-button.png" alt="Reproducir" class="play-icon">
+                                <img src="img/icons/png/pause.png" alt="Pausar" class="pause-icon hidden">
+                            </button>
+                            <button class="control-btn next" title="Siguiente">
+                                <img src="img/icons/png/next.png" alt="Siguiente">
+                            </button>
+                            <button class="control-btn repeat" title="Repetir">
+                                <img src="img/icons/png/replay.png" alt="Repetir">
+                            </button>
                         </div>
-                        <span id="duration">0:00</span>
+                        
+                        <div class="progress-container">
+                            <span class="current-time">0:00</span>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                                <div class="progress-handle"></div>
+                            </div>
+                            <span class="total-time">0:00</span>
+                        </div>
                     </div>
 
-                    <!-- Controles -->
-                    <div class="controls">
-                        <button id="shuffle" class="control-btn" title="Reproducción aleatoria">
-                            <img src="img/icons/random.svg" alt="Aleatorio" class="player-icon">
-                        </button>
-                        <button id="prev" class="control-btn" title="Anterior">
-                            <img src="img/icons/step-backward.svg" alt="Anterior" class="player-icon">
-                        </button>
-                        <button id="play" class="control-btn play-btn" title="Reproducir">
-                            <img id="play-icon" src="img/icons/play.svg" alt="Reproducir" class="player-icon">
-                        </button>
-                        <button id="next" class="control-btn" title="Siguiente">
-                            <img src="img/icons/step-forward.svg" alt="Siguiente" class="player-icon">
-                        </button>
-                        <button id="repeat" class="control-btn" title="Repetir">
-                            <img src="img/icons/redo.svg" alt="Repetir" class="player-icon">
-                        </button>
-                    </div>
-
-                    <!-- Volumen -->
-                    <div class="volume-container">
-                        <button id="mute" class="control-btn" title="Silenciar">
-                            <img id="volume-icon" src="img/icons/volume-up.svg" alt="Volumen" class="player-icon">
-                        </button>
-                        <div class="volume-slider">
-                            <div class="volume-bar">
-                                <div class="volume" id="volume"></div>
+                    <!-- Control de volumen y lista de reproducción -->
+                    <div class="volume-playlist">
+                        <div class="volume-control">
+                            <img src="img/icons/png/volume-up.png" alt="Volumen" class="volume-icon">
+                            <div class="volume-slider">
+                                <div class="volume-progress"></div>
+                                <div class="volume-handle"></div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Lista de reproducción -->
-                    <div class="playlist-container">
-                        <button id="playlist-toggle" class="control-btn" title="Lista de reproducción">
-                            <img src="img/icons/list.svg" alt="Lista de reproducción" class="player-icon">
+                        <button class="control-btn playlist-toggle" title="Lista de reproducción">
+                            <img src="img/icons/png/list-text.png" alt="Lista de reproducción">
                         </button>
-                        <div class="playlist" id="playlist">
-                            <ul>
-                                <li data-src="sng/Rpr/Amor - Alta Elegancia x DannyLux.mp3" data-cover="sng/Icn/Amor - Alta Elegancia x DannyLux.png" data-title="Amor" data-artist="Alta Elegancia x DannyLux" class="active">Amor - Alta Elegancia x DannyLux</li>
-                                <li data-src="sng/Rpr/Diciembre - Eslabon Armado.mp3" data-cover="sng/Icn/Diciembre - Eslabon Armado.png" data-title="Diciembre" data-artist="Eslabon Armado">Diciembre - Eslabon Armado</li>
-                                <li data-src="sng/Rpr/Ojitos de Miel - T3R Elemento.mp3" data-cover="sng/Icn/Ojitos de Miel - T3R Elemento.png" data-title="Ojitos de Miel" data-artist="T3R Elemento">Ojitos de Miel - T3R Elemento</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
+
+                <!-- Lista de reproducción desplegable -->
+                <div class="playlist-container hidden">
+                    <div class="playlist-header">
+                        <h3>Lista de reproducción</h3>
+                    </div>
+                    <ul class="playlist-songs"></ul>
+                </div>
             </div>
+            
         </header>
         
         <!-- Contenido principal de la página -->

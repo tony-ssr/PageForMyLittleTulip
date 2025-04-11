@@ -19,8 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome para iconos -->
-    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <!-- Iconos locales del reproductor -->
 </head>
 <body>
     <!-- Contenedor para los tulipanes animados de fondo (se llenará con JavaScript) -->
@@ -44,6 +43,7 @@
             <!-- Reproductor de música -->
             <div class="music-player-container">
                 <div class="music-player">
+                    <!-- Información de la canción -->
                     <div class="song-info">
                         <div class="song-image">
                             <img id="song-cover" src="sng/Icn/Amor - Alta Elegancia x DannyLux.png" alt="Portada de canción">
@@ -53,7 +53,8 @@
                             <div id="song-artist">Alta Elegancia x DannyLux</div>
                         </div>
                     </div>
-                    
+
+                    <!-- Barra de progreso -->
                     <div class="progress-container">
                         <span id="current-time">0:00</span>
                         <div class="progress-bar">
@@ -61,28 +62,30 @@
                         </div>
                         <span id="duration">0:00</span>
                     </div>
-                    
+
+                    <!-- Controles -->
                     <div class="controls">
                         <button id="shuffle" class="control-btn" title="Reproducción aleatoria">
-                            <i class="fas fa-random"></i>
+                            <img src="img/icons/random.svg" alt="Aleatorio" class="player-icon">
                         </button>
                         <button id="prev" class="control-btn" title="Anterior">
-                            <i class="fas fa-step-backward"></i>
+                            <img src="img/icons/step-backward.svg" alt="Anterior" class="player-icon">
                         </button>
                         <button id="play" class="control-btn play-btn" title="Reproducir">
-                            <i class="fas fa-play"></i>
+                            <img id="play-icon" src="img/icons/play.svg" alt="Reproducir" class="player-icon">
                         </button>
                         <button id="next" class="control-btn" title="Siguiente">
-                            <i class="fas fa-step-forward"></i>
+                            <img src="img/icons/step-forward.svg" alt="Siguiente" class="player-icon">
                         </button>
                         <button id="repeat" class="control-btn" title="Repetir">
-                            <i class="fas fa-redo"></i>
+                            <img src="img/icons/redo.svg" alt="Repetir" class="player-icon">
                         </button>
                     </div>
-                    
+
+                    <!-- Volumen -->
                     <div class="volume-container">
                         <button id="mute" class="control-btn" title="Silenciar">
-                            <i class="fas fa-volume-up"></i>
+                            <img id="volume-icon" src="img/icons/volume-up.svg" alt="Volumen" class="player-icon">
                         </button>
                         <div class="volume-slider">
                             <div class="volume-bar">
@@ -90,10 +93,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- Lista de reproducción -->
                     <div class="playlist-container">
                         <button id="playlist-toggle" class="control-btn" title="Lista de reproducción">
-                            <i class="fas fa-list"></i>
+                            <img src="img/icons/list.svg" alt="Lista de reproducción" class="player-icon">
                         </button>
                         <div class="playlist" id="playlist">
                             <ul>
@@ -321,6 +325,6 @@
     </div>
     
     <script src="js/script.js"></script>
-    <script src="js/music-player.js"></script>
+    
 </body>
 </html>

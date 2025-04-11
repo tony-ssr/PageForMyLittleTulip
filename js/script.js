@@ -69,6 +69,24 @@ function closeModal() {
     }, 300);
 }
 
+// Funciones para el modal del mensaje de amor
+function openLoveMessage() {
+    const modal = document.getElementById('loveMessageModal');
+    modal.style.display = 'flex';
+    modal.style.opacity = '0';
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 10);
+}
+
+function closeLoveMessage() {
+    const modal = document.getElementById('loveMessageModal');
+    modal.style.opacity = '0';
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+}
+
 /**
  * Inicializa todas las funcionalidades cuando el DOM está completamente cargado
  * Esto asegura que todos los elementos HTML estén disponibles antes de manipularlos

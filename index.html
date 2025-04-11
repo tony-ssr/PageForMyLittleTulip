@@ -204,6 +204,43 @@
                     En ti encuentro mi destino final.</p>
                 </div>
             </section>
+
+            <!-- Sección del video con la canción "I Wanna Be Yours" -->
+            <section class="video-dedication special-video" aria-label="Video especial con I Wanna Be Yours">
+                <div class="video-card">
+                    <div class="video-container">
+                        <video controls>
+                            <source src="vdo/A/Vdo - 2.mp4" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    </div>
+                    <button class="love-button" onclick="openLoveMessage()">
+                        <span>Ábreme</span>
+                        <div class="button-decoration">
+                            <div class="heart-icon">❤️</div>
+                            <div class="tulip-icon">🌷</div>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Modal para el mensaje de amor -->
+            <div id="loveMessageModal" class="modal love-message-modal">
+                <h2>Amor Eterno</h2>
+                <div class="modal-content love-message-content">
+                    <span class="close" onclick="closeLoveMessage()">&times;</span>
+                    <div class="love-message">
+                        <h2>Mi Único Tulipán</h2>
+                        <p>Ana, mi amor por ti es infinito y eterno.</p>
+                        <p>Has sido y siempre serás el único tulipán en el jardín de mi corazón.</p>
+                        <p>Cada latido de mi corazón es por ti, cada sonrisa es gracias a ti.</p>
+                        <div class="animated-icons">
+                            <div class="beating-heart">❤️</div>
+                            <div class="beating-tulip">🌷</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
         
         <!-- Pie de página con información de autoría y fecha -->

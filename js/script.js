@@ -203,11 +203,21 @@ function openModal(mediaPath, title, isVideo = false) {
     });
 }
 
-// Función para crear elemento de video
+// Función para crear elemento de video con manejo mejorado de eventos touch
 function createVideoElement(path) {
     const video = document.createElement('video');
     video.controls = true;
-    video.autoplay = true;
+    video.autoplay = false;
+    video.playsInline = true;
+    video.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    }, { passive: false });
     const source = document.createElement('source');
     source.src = path;
     source.type = 'video/mp4';
@@ -650,16 +660,82 @@ function initMusicPlayer() {
     loadSong(currentSongIndex);
     updatePlaylistUI();
 
-    // Eventos de reproducción
-    playPauseBtn.addEventListener('click', togglePlay);
-    previousBtn.addEventListener('click', playPrevious);
-    nextBtn.addEventListener('click', playNext);
-    shuffleBtn.addEventListener('click', toggleShuffle);
-    repeatBtn.addEventListener('click', toggleRepeat);
+    // Eventos de reproducción con soporte para dispositivos móviles
+    playPauseBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        togglePlay();
+    });
+    playPauseBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        togglePlay();
+    }, { passive: false });
 
-    // Eventos de la barra de progreso
-    progressBar.addEventListener('click', seek);
+    previousBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        playPrevious();
+    });
+    previousBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        playPrevious();
+    }, { passive: false });
+
+    nextBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        playNext();
+    });
+    nextBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        playNext();
+    }, { passive: false });
+
+    shuffleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleShuffle();
+    });
+    shuffleBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleShuffle();
+    }, { passive: false });
+
+    repeatBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleRepeat();
+    });
+    repeatBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleRepeat();
+    }, { passive: false });
+
+    // Eventos de la barra de progreso con soporte táctil
+    progressBar.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        seek(e);
+    });
+    progressBar.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const touch = e.touches[0];
+        seek(touch);
+    }, { passive: false });
+
     progressHandle.addEventListener('mousedown', startSeekDrag);
+    progressHandle.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const touch = e.touches[0];
+        startSeekDrag(touch);
+    }, { passive: false });
 
     // Eventos del control de volumen
     volumeSlider.addEventListener('click', setVolume);
@@ -766,14 +842,19 @@ function initMusicPlayer() {
     }
 
     function startSeekDrag(e) {
-        e.preventDefault();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         document.addEventListener('mousemove', handleSeekDrag);
         document.addEventListener('mouseup', stopSeekDrag);
+        document.addEventListener('touchmove', handleSeekDrag, { passive: false });
+        document.addEventListener('touchend', stopSeekDrag);
     }
 
     function handleSeekDrag(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const rect = progressBar.getBoundingClientRect();
-        let percent = (e.clientX - rect.left) / rect.width;
+        let percent = (clientX - rect.left) / rect.width;
         percent = Math.max(0, Math.min(1, percent));
         progress.style.width = `${percent * 100}%`;
         progressHandle.style.left = `${percent * 100}%`;
@@ -783,6 +864,8 @@ function initMusicPlayer() {
     function stopSeekDrag() {
         document.removeEventListener('mousemove', handleSeekDrag);
         document.removeEventListener('mouseup', stopSeekDrag);
+        document.removeEventListener('touchmove', handleSeekDrag);
+        document.removeEventListener('touchend', stopSeekDrag);
     }
 
     function setVolume(e) {

@@ -30,6 +30,7 @@ Este proyecto es una expresión digital de cariño que combina elementos visuale
 - Galería modal para visualización de imágenes y videos
 - Carrusel tipo libro con navegación intuitiva
 - Reproductor de video personalizado
+- Reproductor de música personalizado con playlist
 - Efectos al hacer scroll usando Intersection Observer API
 
 ### 📱 Compatibilidad
@@ -43,6 +44,7 @@ Este proyecto es una expresión digital de cariño que combina elementos visuale
 - **HTML5**: Estructura semántica y accesible
 - **CSS3**: Animaciones, flexbox, grid y diseño responsive
 - **JavaScript vanilla**: Interactividad sin dependencias
+- **Web Audio API**: Reproducción y control de audio
 
 ### Recursos externos
 - **Google Fonts**: Dancing Script (para títulos) y Montserrat (para texto)
@@ -96,11 +98,16 @@ Para mi tulipan/
 ├── css/
 │   └── styles.css        # Estilos principales
 ├── js/
-│   └── script.js        # Lógica de la aplicación
+│   ├── script.js        # Lógica principal de la aplicación
+│   └── music-player.js  # Lógica del reproductor de música
 ├── img/
 │   ├── A&D/             # Fotos de ambos
 │   ├── A/               # Fotos de Ana
-│   └── MC/              # Fotos de Minecraft
+│   ├── MC/              # Fotos de Minecraft
+│   └── Gfi/             # Imágenes adicionales
+├── sng/
+│   ├── Icn/             # Iconos de canciones
+│   └── Rpr/             # Archivos de audio
 ├── vdo/
 │   ├── A&D/             # Videos de momentos juntos
 │   └── A/               # Videos dedicados
@@ -122,6 +129,13 @@ Para mi tulipan/
 - Combinación de imágenes y mensajes
 - Controles intuitivos (anterior/siguiente)
 - Animaciones de transición fluidas
+
+### Reproductor de música
+- Playlist personalizada con canciones dedicadas
+- Controles de reproducción (play/pause, anterior/siguiente)
+- Visualización de portada y título de la canción
+- Barra de progreso interactiva
+- Transiciones suaves entre canciones
 
 ## 🛠️ Guía de desarrollo
 

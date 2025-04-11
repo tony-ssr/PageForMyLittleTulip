@@ -1349,11 +1349,35 @@ input:checked ~ .theme-icon.dark {
 
 /* Contenedor del contenido del poema */
 .poem-content {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.5rem;
-    line-height: 2;
-    color: #333;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2rem;
+    line-height: 1.8;
+    color: var(--color-text);
     margin-top: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.poem-content p {
+    margin-bottom: 1.5rem;
+    transform-origin: center;
+}
+
+.poem-content p:hover {
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .poem-content {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .poem-content {
+        font-size: 1.5rem;
+        line-height: 1.6;
+    }
 }
 
 .graffiti-container {
@@ -1394,9 +1418,22 @@ input:checked ~ .theme-icon.dark {
 }
 
 .quote-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.8rem;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2.2rem;
     margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .quote-text {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quote-text {
+        font-size: 1.5rem;
+    }
 }
 
 .quote-author {

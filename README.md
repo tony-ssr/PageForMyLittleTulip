@@ -12,6 +12,7 @@ Una página web dedicada creada con amor por Diego Yaqueno para Ana Rosero, desa
 Este proyecto es una expresión digital de cariño que combina elementos visuales atractivos con interactividad significativa. La página incluye:
 - Galería fotográfica interactiva con ventana modal
 - Carrusel tipo libro con imágenes y mensajes
+- Reproductor de música estilo Spotify con playlist personalizada
 - Sección de videos dedicados con reproductor personalizado
 - Diseño responsive para todos los dispositivos
 - Recuerdos de infancia en marcos decorativos
@@ -26,11 +27,21 @@ Este proyecto es una expresión digital de cariño que combina elementos visuale
 - Marcos decorativos para fotos de infancia
 
 ### 💡 Funcionalidades
-- Modo claro/oscuro con persistencia de preferencia
+- Sistema de temas claro/oscuro mejorado con:
+  - Persistencia de preferencias
+  - Animaciones suaves de transición
+  - Sincronización con preferencias del sistema
 - Galería modal para visualización de imágenes y videos
 - Carrusel tipo libro con navegación intuitiva
-- Reproductor de video personalizado
-- Reproductor de música personalizado con playlist
+- Reproductor de video personalizado con controles táctiles
+- Reproductor de música estilo Spotify con:
+  - Playlist personalizada con canciones dedicadas
+  - Controles de reproducción (play/pause, siguiente, anterior)
+  - Modo de repetición (ninguno, todo, una canción)
+  - Modo aleatorio
+  - Visualización de portada y metadata
+  - Barra de progreso interactiva
+  - Transiciones suaves entre canciones
 - Efectos al hacer scroll usando Intersection Observer API
 
 ### 📱 Compatibilidad
@@ -90,7 +101,7 @@ Puedes editar las siguientes variables CSS en `:root` (archivo `styles.css`) par
 }
 ```
 
-## 📂 Estructura completa del proyecto
+## 📂 Estructura del proyecto
 
 ```
 Para mi tulipan/
@@ -98,56 +109,38 @@ Para mi tulipan/
 ├── css/
 │   └── styles.css        # Estilos principales
 ├── js/
-│   ├── script.js        # Lógica principal de la aplicación
-│   └── music-player.js  # Lógica del reproductor de música
+│   └── script.js         # Lógica principal de la aplicación
 ├── img/
-│   ├── A&D/             # Fotos de ambos
-│   ├── A/               # Fotos de Ana
-│   ├── MC/              # Fotos de Minecraft
-│   └── Gfi/             # Imágenes adicionales
+│   ├── A&D/              # Fotos de ambos
+│   ├── A/                # Fotos de Ana
+│   ├── MC/               # Fotos de Minecraft
+│   ├── Gfi/              # Imágenes adicionales
+│   └── icons/            # Iconos del sistema
 ├── sng/
-│   ├── Icn/             # Iconos de canciones
-│   └── Rpr/             # Archivos de audio
+│   ├── Icn/              # Portadas de canciones
+│   └── Rpr/              # Archivos de audio
 ├── vdo/
-│   ├── A&D/             # Videos de momentos juntos
-│   └── A/               # Videos dedicados
-├── .gitignore           # Archivos ignorados por git
-├── LICENSE              # Licencia MIT
-└── README.md            # Este archivo
+│   ├── A&D/              # Videos de momentos juntos
+│   └── A/                # Videos dedicados
+├── .gitignore            # Archivos ignorados por git
+├── LICENSE               # Licencia MIT
+└── README.md             # Este archivo
 ```
 
-## 🖼️ Características de la galería
+## 🎵 Características del reproductor de música
 
-### Modal interactivo
-- Visualización de imágenes a pantalla completa
-- Soporte para reproducción de videos
-- Títulos descriptivos para cada contenido
-- Botón de cierre intuitivo
-
-### Carrusel tipo libro
-- Navegación suave entre páginas
-- Combinación de imágenes y mensajes
-- Controles intuitivos (anterior/siguiente)
-- Animaciones de transición fluidas
-
-### Reproductor de música
-- Playlist personalizada con canciones dedicadas
-- Controles de reproducción (play/pause, anterior/siguiente)
-- Visualización de portada y título de la canción
-- Barra de progreso interactiva
+### Reproductor estilo Spotify
+- Interfaz moderna y elegante
+- Controles intuitivos y responsivos
+- Visualización de portada y metadata
+- Modos de reproducción personalizables
 - Transiciones suaves entre canciones
 
-## 🛠️ Guía de desarrollo
-
-### Estructura del código
-- **HTML**: Semántico y accesible
-- **CSS**: Organizado por componentes
-- **JavaScript**: Modular y bien comentado
-
-### Convenciones
-- Nombres descriptivos en inglés
-- Comentarios en español
-- Indentación con 4 espacios
+### Playlist personalizada
+- Canciones cuidadosamente seleccionadas
+- Portadas personalizadas para cada canción
+- Metadata completa (título, artista)
+- Controles de navegación intuitivos
 
 ## 🤝 Cómo contribuir
 
